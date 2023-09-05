@@ -19,7 +19,16 @@ public class As4Test {
 
     public As4Test() throws AS4Exception {
         this.as4Client = SimpleAs4Client();
-        var result = SubmitDeclarationExample();
+        StatusResponseType submitDeclarationResult = SubmitDeclarationExample();
+
+        var submitDeclarationMessage = submitDeclarationResult.getMessage();
+        var submitDeclarationCode = submitDeclarationResult.getCode();
+        System.out.println("Submit declaration result (" + submitDeclarationCode + "): " + submitDeclarationMessage);
+
+        StatusResponseType notificationResult = retrieveNotificationExample(this.as4Client);
+        var notificationMessage = notificationResult.getMessage();
+        var notificationCode = notificationResult.getCode();
+        System.out.println("Notification result (" + notificationCode + "): " + notificationMessage);
     }
 
     public StatusResponseType SubmitDeclarationExample() throws AS4Exception {
@@ -48,11 +57,27 @@ public class As4Test {
         return declarationStatus;
     }
 
+    private StatusResponseType retrieveNotificationExample(As4Client client) throws AS4Exception
+    {
+        var pushResult = client.executePush(
+                "DMS.Import",
+                "Notification",
+                Map.of("lang", "EN",
+                        "submitterId", "45549113",
+                        "dateFrom", "2023-09-05T12:30:00.000",
+                        "dateTo", "2023-09-05T12:35:00.000")
+        );
+
+        StatusResponseType pushStatus = Tools.getStatus(pushResult);
+
+        return pushStatus;
+    }
+
     private As4Client SimpleAs4Client() throws AS4Exception {
         Properties prop = new Properties();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
-            InputStream stream = loader.getResourceAsStream("security/certificate.properties");
+            InputStream stream = loader.getResourceAsStream("security/oces2Gateway.properties");
             prop.load(stream);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -60,9 +85,9 @@ public class As4Test {
 
         return new As4ClientBuilderInstance()
                 .builder()
-                .setEndpoint("https://www.testsys.dk/console/")
+                .setEndpoint("https://secureftpgatewaytest.skat.dk:6384")
                 .setCrypto("security/as4-crypto.properties")
-                .setPassword(prop.getProperty("simpleClientPassword"))
+                .setPassword(prop.getProperty("oces2GatewayPassword"))
                 .build();
     }
 }
