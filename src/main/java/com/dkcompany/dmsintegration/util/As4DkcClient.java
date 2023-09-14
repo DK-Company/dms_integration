@@ -1,11 +1,9 @@
 package com.dkcompany.dmsintegration.util;
 
-import dk.skat.mft.dms_declaration_status._1.StatusResponseType;
 import dk.toldst.eutk.as4client.As4Client;
 import dk.toldst.eutk.as4client.As4ClientResponseDto;
 import dk.toldst.eutk.as4client.builder.support.As4ClientBuilderInstance;
 import dk.toldst.eutk.as4client.exceptions.AS4Exception;
-import dk.toldst.eutk.as4client.utilities.Tools;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,11 +20,11 @@ public class As4DkcClient {
         as4Client = SimpleAs4Client();
     }
 
-    public StatusResponseType pushNotificationRequest(LocalDateTime now) throws AS4Exception
+    public As4ClientResponseDto pushNotificationRequest(LocalDateTime now) throws AS4Exception
     {
         LocalDateTime then = now.minusMinutes(5);
 
-        As4ClientResponseDto pushResult = as4Client.executePush(
+        As4ClientResponseDto response = as4Client.executePush(
                 "DMS.Export",
                 "Notification",
                 Map.of(
@@ -37,12 +35,12 @@ public class As4DkcClient {
                 )
         );
 
-        return Tools.getStatus(pushResult.getFirstAttachment());
+        return response;
     }
 
-    public StatusResponseType pullNotifications() throws AS4Exception {
-        As4ClientResponseDto pullResult = as4Client.executePull();
-        return Tools.getStatus(pullResult.getFirstAttachment());
+    public As4ClientResponseDto pullNotifications() throws AS4Exception {
+        // return as4Client.executePull();
+        return as4Client.executePull("urn:fdc:dk.skat.mft.DMS/export2/response");
     }
 
     private As4Client SimpleAs4Client() throws AS4Exception {

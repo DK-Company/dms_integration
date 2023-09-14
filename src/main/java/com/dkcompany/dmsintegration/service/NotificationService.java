@@ -3,8 +3,9 @@ package com.dkcompany.dmsintegration.service;
 import com.dkcompany.dmsintegration.util.As4DkcClient;
 import com.dkcompany.dmsintegration.entity.Notification;
 import com.dkcompany.dmsintegration.repository.NotificationRepository;
-import dk.skat.mft.dms_declaration_status._1.StatusResponseType;
+import dk.toldst.eutk.as4client.As4ClientResponseDto;
 import dk.toldst.eutk.as4client.exceptions.AS4Exception;
+import dk.toldst.eutk.as4client.utilities.Tools;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,46 +33,53 @@ public class NotificationService {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
         if (hasUnrequestedNotifications(now)) {
-            var result = requestOldNotifications();
+            requestOldNotifications();
+        } else {
+            requestRecentNotifications(now);
         }
 
-        var result = requestRecentNotifications(now);
+        pullNotifications();
     }
 
-    private StatusResponseType requestRecentNotifications(LocalDateTime now) throws AS4Exception {
-        StatusResponseType notificationPushRequestResult = as4DkcClient.pushNotificationRequest(now);
-        String notificationCode = notificationPushRequestResult.getCode();
+    private void requestRecentNotifications(LocalDateTime now) throws AS4Exception {
+        As4ClientResponseDto notificationPushResponseDto = as4DkcClient.pushNotificationRequest(now);
+        String notificationResultCode = Tools.getStatus(
+                notificationPushResponseDto
+                        .getFirstAttachment())
+                        .getCode();
 
         String time = now.plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        System.out.printf("Status for notification push request was %s (%s)%n", notificationCode, time);
+        System.out.printf("Status for notification push request was %s (%s)%n", notificationResultCode, time);
 
         Notification notification = Notification
                 .builder()
-                //.timestamp(now)
-                .timestamp(now.minusMinutes(10))
+                .timestamp(now)
                 .build();
         notificationRepository.save(notification);
-
-        return notificationPushRequestResult;
     }
 
-    private StatusResponseType requestOldNotifications() {
+    private void requestOldNotifications() {
         throw new UnsupportedOperationException("method not implemented");
     }
 
-    private boolean hasUnrequestedNotifications(LocalDateTime now) {
-        Iterable<Notification> notifications = notificationRepository.findAll();
-        Optional<Notification> latestNotificationOption = StreamSupport
-                .stream(notifications.spliterator(), false)
-                .max(Comparator.comparing(Notification::getId));
+    private void pullNotifications() throws AS4Exception {
+        As4ClientResponseDto as4ClientResponseDto = as4DkcClient.pullNotifications();
+        String firstAttachment = as4ClientResponseDto.getFirstAttachment();
+        if (firstAttachment == null) {
+            System.out.println("Pull notifications response was null");
+        } else {
+            System.out.println("Pull notifications response was not null");
+        }
+    }
 
-        if (latestNotificationOption.isEmpty()) {
+    private boolean hasUnrequestedNotifications(LocalDateTime now) {
+        Notification latestNotification = notificationRepository.findFirstByOrderByTimestampDesc();
+
+        if (latestNotification == null) {
             return false;
         }
 
-        Notification latestNotification = latestNotificationOption.get();
         LocalDateTime notificationTimestamp = latestNotification.getTimestamp();
-
         if (notificationTimestamp.isAfter(now.minusMinutes(5))) {
             return false;
         }
