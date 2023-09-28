@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Properties;
@@ -20,12 +24,53 @@ public class As4DkcClient {
         as4Client = SimpleAs4Client();
     }
 
+    public As4ClientResponseDto SubmitDeclarationExample() throws AS4Exception {
+        String declaration = "";
+        try {
+            declaration = new String(
+                    As4DkcClient.class
+                            .getResourceAsStream("/examples/B1C.xml")
+                            .readAllBytes()
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        var declarationBytes = declaration.getBytes(StandardCharsets.UTF_8);
+
+        return as4Client.executePush(
+                DmsService.Export2.value,
+                "Declaration.Submit",
+                declarationBytes,
+                Map.of("procedureType", ProcedureType.B1.value)
+        );
+    }
+
+    public As4ClientResponseDto submitDeclaration(String filePath,
+                                                  ProcedureType procedureType,
+                                                  DmsService dmsService) throws AS4Exception {
+        Path path = Paths.get(filePath);
+        byte[] declarationBytes;
+        try {
+            declarationBytes = Files.readAllBytes(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return as4Client.executePush(
+                dmsService.value,
+                "Declaration.Submit",
+                declarationBytes,
+                Map.of("procedureType", procedureType.value)
+        );
+    }
+
     public As4ClientResponseDto pushNotificationRequest(LocalDateTime now) throws AS4Exception
     {
         LocalDateTime then = now.minusMinutes(5);
 
-        As4ClientResponseDto response = as4Client.executePush(
-                "DMS.Export",
+        return as4Client.executePush(
+                "DMS.Export2",
                 "Notification",
                 Map.of(
                         "lang", "EN",
@@ -34,13 +79,10 @@ public class As4DkcClient {
                         "dateTo", now.toString()
                 )
         );
-
-        return response;
     }
 
     public As4ClientResponseDto pullNotifications() throws AS4Exception {
-        // return as4Client.executePull();
-        return as4Client.executePull("urn:fdc:dk.skat.mft.DMS/export2/response");
+         return as4Client.executePull();
     }
 
     private As4Client SimpleAs4Client() throws AS4Exception {
