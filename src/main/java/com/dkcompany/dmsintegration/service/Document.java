@@ -1,7 +1,7 @@
 package com.dkcompany.dmsintegration.service;
 
-import com.dkcompany.dmsintegration.util.DmsService;
-import com.dkcompany.dmsintegration.util.ProcedureType;
+import com.dkcompany.dmsintegration.enums.DmsService;
+import com.dkcompany.dmsintegration.enums.ProcedureType;
 import lombok.Getter;
 
 import java.io.File;

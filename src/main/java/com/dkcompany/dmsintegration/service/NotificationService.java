@@ -6,7 +6,6 @@ import com.dkcompany.dmsintegration.repository.NotificationRepository;
 import dk.toldst.eutk.as4client.As4ClientResponseDto;
 import dk.toldst.eutk.as4client.exceptions.AS4Exception;
 import dk.toldst.eutk.as4client.utilities.Tools;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,23 +16,22 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
 
-@Configuration
-@EnableScheduling
+// @Configuration
+// @EnableScheduling
 public class NotificationService {
     private final As4DkcClient as4DkcClient;
     private final NotificationRepository notificationRepository;
 
     public NotificationService(
             As4DkcClient as4DkcClient,
-            NotificationRepository notificationRepository) {
+            NotificationRepository notificationRepository
+    ) {
         this.as4DkcClient = as4DkcClient;
         this.notificationRepository = notificationRepository;
     }
 
-//    @Scheduled(fixedDelay = 10000)
+   // @Scheduled(fixedDelay = 10000)
     public void uploadDocument() throws AS4Exception {
         var dto = as4DkcClient.SubmitDeclarationExample();
 
@@ -41,51 +39,60 @@ public class NotificationService {
         System.out.println("Upload response: " + uploadStatus);
     }
 
-//    @Scheduled(fixedDelay = 10000)
+   // @Scheduled(fixedDelay = 10000)
     public void requestNotifications() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
         try {
-            if (hasUnrequestedNotifications(now)) {
-                requestOldNotifications(now);
-            } else {
+            // if (hasNoUnrequestedNotifications(now)) {
+            //     requestOldNotifications(now);
+            // } else {
                 requestRecentNotifications(now);
-            }
+            // }
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-//    @Scheduled(fixedDelay = 1000)
+    // @Scheduled(fixedDelay = 1000)
     public void pullNotifications() throws AS4Exception {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         String time = now.plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        StringBuilder notificationEntry = new StringBuilder();
 
         long startTime = System.nanoTime();
         As4ClientResponseDto as4ClientResponseDto = as4DkcClient.pullNotifications();
         long endTime = System.nanoTime();
 
-        long duration = (endTime - startTime) / 1000000;
-        System.out.println("Duration: " + duration + "ms");
+        // TODO: while loop that terminates when all notifications have been pulled
+        // while (true) {
+        //     As4ClientResponseDto response = as4DkcClient.pullNotifications();
+        //     // do something with the response
+        //     if (response.getReftoOriginalID() == null) {
+        //         break;
+        //     }
+        // }
 
-        String notification = as4ClientResponseDto.getFirstAttachment();
-        if (notification == null) {
-            notification = "Empty.\n";
+        long duration = (endTime - startTime) / 1000000;
+        System.out.println("Notification pull duration: " + duration + "ms");
+
+        String firstAttachment = as4ClientResponseDto.getFirstAttachment();
+        if (firstAttachment == null) {
+            firstAttachment = "Empty.";
         }
 
-        System.out.println("Notifications pulled:\n" + notification);
+        StringBuilder notification = new StringBuilder();
+        notification.append("[NOTIFICATION ");
+        notification.append(time);
+        notification.append(']');
+        notification.append('\n');
+        notification.append(firstAttachment);
+        notification.append('\n');
 
-        notificationEntry.append('[');
-        notificationEntry.append(time);
-        notificationEntry.append(']');
-        notificationEntry.append('\n');
-        notificationEntry.append(notification);
-        notificationEntry.append('\n');
+        System.out.println(notification);
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Files\\notifications.txt", true));
-            writer.write(notificationEntry.toString());
+            writer.write(notification.toString());
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -93,7 +100,9 @@ public class NotificationService {
     }
 
     private void requestRecentNotifications(LocalDateTime now) throws AS4Exception {
-        As4ClientResponseDto notificationPushResponseDto = as4DkcClient.pushNotificationRequest(now);
+        LocalDateTime then = now.minusMinutes(5);
+
+        As4ClientResponseDto notificationPushResponseDto = as4DkcClient.pushNotificationRequest(then, now);
 
         String notificationResultCode = Tools.getStatus(
                 notificationPushResponseDto
@@ -111,22 +120,40 @@ public class NotificationService {
     }
 
     private void requestOldNotifications(LocalDateTime now) throws AS4Exception {
-        // TODO: This method should implement logic that requests all missing notifications
         requestRecentNotifications(now);
+        // TODO: This method should implement logic that requests all missing notifications
+        // LocalDateTime latestNotificationTimestamp = getLatestNotificationTimestamp();
+        // if (latestNotificationTimestamp == null || hasNoUnrequestedNotifications(now, latestNotificationTimestamp)) {
+        //     requestRecentNotifications(now);
+        // } else {
+        //     As4ClientResponseDto notificationPushResponseDto = as4DkcClient.pushNotificationRequest(latestNotificationTimestamp, now);
+        //
+        //     String notificationResultCode = Tools.getStatus(
+        //                     notificationPushResponseDto
+        //                             .getFirstAttachment())
+        //             .getCode();
+        //
+        //     String time = now.plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        //     System.out.printf("Status for notification push request was %s (%s)%n", notificationResultCode, time);
+        //
+        //     Notification notification = Notification
+        //             .builder()
+        //             .timestamp(now)
+        //             .build();
+        //     notificationRepository.save(notification);
+        // }
     }
 
-    private boolean hasUnrequestedNotifications(LocalDateTime now) {
+    private LocalDateTime getLatestNotificationTimestamp() {
         Notification latestNotification = notificationRepository.findFirstByOrderByTimestampDesc();
-
         if (latestNotification == null) {
-            return false;
+            return null;
         }
 
-        LocalDateTime notificationTimestamp = latestNotification.getTimestamp();
-        if (notificationTimestamp.isAfter(now.minusMinutes(5))) {
-            return false;
-        }
+        return latestNotification.getTimestamp();
+    }
 
-        return true;
+    private boolean hasNoUnrequestedNotifications(LocalDateTime now, LocalDateTime latestNotificationTimestamp) {
+        return !latestNotificationTimestamp.isAfter(now.minusMinutes(5));
     }
 }

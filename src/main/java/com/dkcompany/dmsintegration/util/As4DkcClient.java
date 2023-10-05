@@ -1,20 +1,21 @@
 package com.dkcompany.dmsintegration.util;
 
+import com.dkcompany.dmsintegration.enums.DmsService;
+import com.dkcompany.dmsintegration.enums.ProcedureType;
 import dk.toldst.eutk.as4client.As4Client;
 import dk.toldst.eutk.as4client.As4ClientResponseDto;
 import dk.toldst.eutk.as4client.builder.support.As4ClientBuilderInstance;
 import dk.toldst.eutk.as4client.exceptions.AS4Exception;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Properties;
 
 @Component
 public class As4DkcClient {
@@ -65,10 +66,8 @@ public class As4DkcClient {
         );
     }
 
-    public As4ClientResponseDto pushNotificationRequest(LocalDateTime now) throws AS4Exception
+    public As4ClientResponseDto pushNotificationRequest(LocalDateTime then, LocalDateTime now) throws AS4Exception
     {
-        LocalDateTime then = now.minusMinutes(5);
-
         return as4Client.executePush(
                 "DMS.Export2",
                 "Notification",
@@ -85,21 +84,32 @@ public class As4DkcClient {
          return as4Client.executePull();
     }
 
-    private As4Client SimpleAs4Client() throws AS4Exception {
-        Properties prop = new Properties();
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+    private As4Client SimpleAs4Client() {
+        var cryptoProperties = new CryptoProperties(
+                System.getenv("oces3.file"),
+                System.getenv("oces3.password"),
+                System.getenv("oces3.type"),
+                System.getenv("oces3.alias"),
+                System.getenv("oces3.privatePassword")
+        );
+
+        File cryptoPropertiesFile = CryptoPropertiesFile.generate(cryptoProperties);
+
+        String cryptoPath = cryptoPropertiesFile.getAbsolutePath();
+        String gatewayPassword = System.getenv("oces3.gatewayPassword");
+
         try {
-            InputStream stream = loader.getResourceAsStream("security/oces3-gateway.properties");
-            prop.load(stream);
-        } catch (IOException e) {
+            As4Client client = new As4ClientBuilderInstance()
+                    .builder()
+                    .setEndpoint("https://secureftpgatewaytest.skat.dk:6384")
+                    .setCrypto(cryptoPath)
+                    .setPassword(gatewayPassword)
+                    .build();
+            cryptoPropertiesFile.delete();
+            return client;
+        } catch (AS4Exception e) {
+            cryptoPropertiesFile.delete();
             throw new RuntimeException(e);
         }
-
-        return new As4ClientBuilderInstance()
-                .builder()
-                .setEndpoint("https://secureftpgatewaytest.skat.dk:6384")
-                .setCrypto("security/oces3-test-crypto.properties")
-                .setPassword(prop.getProperty("oces3.gateway.password"))
-                .build();
     }
 }
