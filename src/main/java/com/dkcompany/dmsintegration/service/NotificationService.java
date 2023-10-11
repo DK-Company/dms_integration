@@ -32,14 +32,6 @@ public class NotificationService {
     }
 
    // @Scheduled(fixedDelay = 10000)
-    public void uploadDocument() throws AS4Exception {
-        var dto = as4DkcClient.SubmitDeclarationExample();
-
-        var uploadStatus = Tools.getStatus(dto.getFirstAttachment()).getCode();
-        System.out.println("Upload response: " + uploadStatus);
-    }
-
-   // @Scheduled(fixedDelay = 10000)
     public void requestNotifications() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
@@ -60,7 +52,7 @@ public class NotificationService {
         String time = now.plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         long startTime = System.nanoTime();
-        As4ClientResponseDto as4ClientResponseDto = as4DkcClient.pullNotifications();
+        As4ClientResponseDto as4ClientResponseDto = as4DkcClient.pullNotifications("oces3");
         long endTime = System.nanoTime();
 
         // TODO: while loop that terminates when all notifications have been pulled
@@ -90,10 +82,8 @@ public class NotificationService {
 
         System.out.println(notification);
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Files\\notifications.txt", true));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Files\\notifications.txt", true))) {
             writer.write(notification.toString());
-            writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -102,7 +92,7 @@ public class NotificationService {
     private void requestRecentNotifications(LocalDateTime now) throws AS4Exception {
         LocalDateTime then = now.minusMinutes(5);
 
-        As4ClientResponseDto notificationPushResponseDto = as4DkcClient.pushNotificationRequest(then, now);
+        As4ClientResponseDto notificationPushResponseDto = as4DkcClient.pushNotificationRequest(then, now, "oces3");
 
         String notificationResultCode = Tools.getStatus(
                 notificationPushResponseDto

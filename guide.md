@@ -1,17 +1,33 @@
-# Guide for using the alpha tool
+# Guide for using the test tool
+
+## Adding directories
+Directories can be added for files to be picked up.
+
+A directory must follow this structure:
+```
+├── base directory
+│   ├── error
+│   ├── out
+│   ├── success
+│   ├── certificate.config
+```
+
+The `certificate.config` must contain a single line with the value of the certificate prefix used for this directory.
+
+The certificate prefix is used to retrieve the certificate credentials from environment variables.
 
 ## Certificate
 The OCES3 certificate must be located on the computer running the tool.
 
-Take note of the location of the certificate - the absolute path of the file must be used as the value of the `oces3.file` environment variable.
+Take note of the location of the certificate - the absolute path of the file must be used as the value of the `<certificate prefix>.file` environment variable.
 
 ## Environment variables
 The following environment variables must be set:
-- oces3.file
-- oces3.password
-- oces3.type
-- oces3.alias
-- oces3.privatePassword
+- `<certificate prefix>.file`
+- `<certificate prefix>.password`
+- `<certificate prefix>.type`
+- `<certificate prefix>.alias`
+- `<certificate prefix>.privatePassword`
 
 ## The application.properties file
 When running the jar, a file named `application.properties` must be placed in the same directory of the jar.

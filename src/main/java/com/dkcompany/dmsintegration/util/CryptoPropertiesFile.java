@@ -1,5 +1,7 @@
 package com.dkcompany.dmsintegration.util;
 
+import com.dkcompany.dmsintegration.record.CryptoProperties;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
