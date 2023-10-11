@@ -1,0 +1,122 @@
+2023-10-10 13:19:39 [main] INFO  : Starting Application using Java 20.0.2 with PID 2340 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
+2023-10-10 13:19:39 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
+2023-10-10 13:19:40 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-10 13:19:40 [main] INFO  : Finished Spring Data repository scanning in 63 ms. Found 1 JPA repository interfaces.
+2023-10-10 13:19:41 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
+2023-10-10 13:19:41 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
+2023-10-10 13:19:41 [main] INFO  : Starting service [Tomcat]
+2023-10-10 13:19:41 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-10-10 13:19:41 [main] INFO  : Initializing Spring embedded WebApplicationContext
+2023-10-10 13:19:41 [main] INFO  : Root WebApplicationContext: initialization completed in 1997 ms
+2023-10-10 13:19:42 [main] INFO  : HikariPool-1 - Starting...
+2023-10-10 13:19:42 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
+2023-10-10 13:19:42 [main] INFO  : HikariPool-1 - Start completed.
+2023-10-10 13:19:42 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
+2023-10-10 13:19:42 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-10 13:19:42 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-10-10 13:19:42 [main] INFO  : HHH000406: Using bytecode reflection optimizer
+2023-10-10 13:19:42 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 13:19:43 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-10 13:19:43 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 13:19:44 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-10 13:19:44 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-10 13:19:44 [main] INFO  : Added certificate cert2 to C:\Files\directory2
+2023-10-10 13:19:44 [main] INFO  : Added certificate oces3 to C:\Files\directory3
+2023-10-10 13:19:44 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-10 13:19:45 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
+2023-10-10 13:19:45 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-10 13:19:45 [main] INFO  : Started Application in 6.422 seconds (process running for 7.155)
+2023-10-10 13:19:45 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:19:45 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:19:55 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:19:55 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:20:05 [scheduling-2] INFO  : No new files in out directories.
+2023-10-10 13:20:05 [scheduling-2] INFO  : No new files in out directories.
+2023-10-10 13:20:15 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:20:15 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:20:25 [scheduling-3] INFO  : No new files in out directories.
+2023-10-10 13:20:25 [scheduling-3] INFO  : No new files in out directories.
+2023-10-10 13:20:35 [scheduling-3] INFO  : No new files in out directories.
+2023-10-10 13:20:35 [scheduling-3] INFO  : No new files in out directories.
+2023-10-10 13:20:38 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-10 13:20:38 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
+2023-10-10 13:20:38 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
+2023-10-10 13:54:45 [main] INFO  : Starting Application using Java 20.0.2 with PID 14584 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
+2023-10-10 13:54:45 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
+2023-10-10 13:54:46 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-10 13:54:46 [main] INFO  : Finished Spring Data repository scanning in 69 ms. Found 1 JPA repository interfaces.
+2023-10-10 13:54:47 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
+2023-10-10 13:54:47 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
+2023-10-10 13:54:47 [main] INFO  : Starting service [Tomcat]
+2023-10-10 13:54:47 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-10-10 13:54:48 [main] INFO  : Initializing Spring embedded WebApplicationContext
+2023-10-10 13:54:48 [main] INFO  : Root WebApplicationContext: initialization completed in 2080 ms
+2023-10-10 13:54:48 [main] INFO  : HikariPool-1 - Starting...
+2023-10-10 13:54:48 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
+2023-10-10 13:54:48 [main] INFO  : HikariPool-1 - Start completed.
+2023-10-10 13:54:48 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
+2023-10-10 13:54:48 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-10 13:54:48 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-10-10 13:54:48 [main] INFO  : HHH000406: Using bytecode reflection optimizer
+2023-10-10 13:54:49 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 13:54:49 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-10 13:54:49 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 13:54:50 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-10 13:54:50 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-10 13:54:51 [main] INFO  : Added certificate cert2 to C:\Files\directory2
+2023-10-10 13:54:51 [main] INFO  : Added certificate oces3 to C:\Files\directory3
+2023-10-10 13:54:51 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-10 13:54:52 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
+2023-10-10 13:54:52 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-10 13:54:52 [main] INFO  : Started Application in 6.776 seconds (process running for 7.515)
+2023-10-10 13:54:52 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:54:52 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:54:52 [http-nio-8080-exec-5] INFO  : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-10 13:54:52 [http-nio-8080-exec-5] INFO  : Initializing Servlet 'dispatcherServlet'
+2023-10-10 13:54:52 [http-nio-8080-exec-5] INFO  : Completed initialization in 1 ms
+2023-10-10 13:55:02 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:55:02 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:55:12 [scheduling-2] INFO  : No new files in out directories.
+2023-10-10 13:55:12 [scheduling-2] INFO  : No new files in out directories.
+2023-10-10 13:55:22 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:55:22 [scheduling-1] INFO  : No new files in out directories.
+2023-10-10 13:55:32 [scheduling-3] INFO  : No new files in out directories.
+2023-10-10 13:55:32 [scheduling-3] INFO  : No new files in out directories.
+2023-10-10 13:55:40 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-10 13:55:40 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
+2023-10-10 13:55:40 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
+2023-10-10 14:27:57 [main] INFO  : Starting Application using Java 20.0.2 with PID 4024 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
+2023-10-10 14:27:57 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
+2023-10-10 14:27:58 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-10 14:27:58 [main] INFO  : Finished Spring Data repository scanning in 62 ms. Found 1 JPA repository interfaces.
+2023-10-10 14:27:59 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
+2023-10-10 14:27:59 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
+2023-10-10 14:27:59 [main] INFO  : Starting service [Tomcat]
+2023-10-10 14:27:59 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-10-10 14:27:59 [main] INFO  : Initializing Spring embedded WebApplicationContext
+2023-10-10 14:27:59 [main] INFO  : Root WebApplicationContext: initialization completed in 1984 ms
+2023-10-10 14:27:59 [main] INFO  : HikariPool-1 - Starting...
+2023-10-10 14:27:59 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
+2023-10-10 14:27:59 [main] INFO  : HikariPool-1 - Start completed.
+2023-10-10 14:27:59 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
+2023-10-10 14:28:00 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-10 14:28:00 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-10-10 14:28:00 [main] INFO  : HHH000406: Using bytecode reflection optimizer
+2023-10-10 14:28:00 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 14:28:00 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-10 14:28:00 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-10-10 14:28:01 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-10 14:28:01 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-10 14:28:02 [main] INFO  : Added certificate cert2 to C:\Files\directory2
+2023-10-10 14:28:02 [main] INFO  : Added certificate oces3 to C:\Files\directory3
+2023-10-10 14:28:02 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-10 14:28:03 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
+2023-10-10 14:28:03 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-10 14:28:03 [main] INFO  : Started Application in 6.296 seconds (process running for 7.038)
+2023-10-10 14:28:03 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
+2023-10-10 14:28:03 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
+2023-10-10 14:28:13 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
+2023-10-10 14:28:13 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
+2023-10-10 14:28:16 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-10 14:28:16 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
+2023-10-10 14:28:16 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.

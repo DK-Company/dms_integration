@@ -41,10 +41,12 @@ public class As4DkcClient {
         return client;
     }
 
-    public As4ClientResponseDto submitDeclaration(String filePath,
-                                                  ProcedureType procedureType,
-                                                  DmsService dmsService,
-                                                  String certificatePrefix) throws AS4Exception {
+    public As4ClientResponseDto submitDeclaration(
+            String filePath,
+            ProcedureType procedureType,
+            DmsService dmsService,
+            String certificatePrefix
+    ) throws AS4Exception {
         Path path = Paths.get(filePath);
         byte[] declarationBytes;
         try {
@@ -63,8 +65,11 @@ public class As4DkcClient {
         );
     }
 
-    public As4ClientResponseDto pushNotificationRequest(LocalDateTime then, LocalDateTime now, String certificatePrefix) throws AS4Exception
-    {
+    public As4ClientResponseDto pushNotificationRequest(
+            LocalDateTime then,
+            LocalDateTime now,
+            String certificatePrefix
+    ) throws AS4Exception {
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
         return client.executePush(

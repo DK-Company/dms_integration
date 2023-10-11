@@ -28,16 +28,22 @@ public class Directory {
         successDirectory = new File(baseDirectory, "success");
         errorDirectory = new File(baseDirectory, "error");
 
-        assert(baseDirectory.isDirectory());
-        assert(outDirectory.isDirectory());
-        assert(successDirectory.isDirectory());
-        assert(errorDirectory.isDirectory());
+        if (!baseDirectory.exists()) baseDirectory.mkdirs();
+        if (!outDirectory.exists()) outDirectory.mkdir();
+        if (!successDirectory.exists()) successDirectory.mkdir();
+        if (!errorDirectory.exists()) errorDirectory.mkdir();
 
-        this.certificatePrefix = setCertificatePrefix(baseDirectory);
+        this.certificatePrefix = getCertificatePrefixFromConfigFile(baseDirectory);
     }
 
-    private String setCertificatePrefix(File baseDirectory) {
-        // implementation right now only reads first line of certificateConfig.txt and uses the value
+    /**
+     * Expects a file called certificate.config in the root of the
+     * base directory. Reads the first line of the file and returns
+     * the value.
+     * @param baseDirectory file object of the base directory
+     * @return value of the certificate prefix
+     */
+    private String getCertificatePrefixFromConfigFile(File baseDirectory) {
         var file = new File(baseDirectory, "certificate.config");
         try (BufferedReader reader = Files.newReader(file, StandardCharsets.UTF_8)) {
             String firstLine = reader.readLine();

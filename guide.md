@@ -38,3 +38,18 @@ directoryPaths=C:\\Path\\To\\Directory1;C:\\Path\\To\\Directory2
 ```
 
 - `directoryPaths`: list of directories where files are picked up from. Separated by semicolons.
+
+## Files to be picked up
+Files that should be sent to DMS must follow a naming convention to be picked up by the tool.
+
+```
+<ProcedureType>_<DmsService>_<any string>.xml
+```
+
+- `ProcedureType`: the type of the declaration, e.g. _B1_, _H7_, etc.
+- `DmsService`: values can be either _dms.export2_ or _dms.import2_
+- `any string`: the last part of the filename can contain information such as a timestamp, etc.
+
+`ProcedureType`, `DmsService` and the arbitrary string must be separated by underscores (`_`).
+
+Files must have the `.xml` extension.

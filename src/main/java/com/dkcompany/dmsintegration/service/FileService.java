@@ -7,7 +7,6 @@ import com.dkcompany.dmsintegration.util.*;
 import dk.toldst.eutk.as4client.As4ClientResponseDto;
 import dk.toldst.eutk.as4client.exceptions.AS4Exception;
 import dk.toldst.eutk.as4client.utilities.Tools;
-import org.javatuples.Pair;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -35,33 +34,20 @@ public class FileService {
     ) {
         this.as4DkcClient = as4DkcClient;
         this.directories = new ArrayList<>();
+
+        addDirectories(directoryPaths);
+    }
+
+    private void addDirectories(String directoryPaths) {
         if (directoryPaths.equals("null")) {
-            String path2 = "C:\\Files\\directory2";
-            String path3 = "C:\\Files\\directory3";
-
-            if (Files.exists(Paths.get(path2))) {
-                directories.add(new Directory(path2));
-            } else {
-                logger.error(path2 + " could not be added because it was not a directory.");
-            }
-
-            if (Files.exists(Paths.get(path3))) {
-                directories.add(new Directory(path3));
-            } else {
-                logger.error(path3 + " could not be added because it was not a directory.");
-            }
+            directories.add(new Directory("C:\\Files\\directory2"));
+            directories.add(new Directory("C:\\Files\\directory3"));
         } else {
             List<String> paths = Arrays
                     .stream(directoryPaths.split(";"))
-                    .filter(p -> {
-                        if (Files.exists(Paths.get(p))) {
-                            return true;
-                        } else {
-                            logger.error(p + " could not be added because it was not a directory.");
-                            return false;
-                        }
-                    })
+                    .filter(p -> Files.exists(Paths.get(p)))
                     .toList();
+
             paths.forEach(path -> {
                 directories.add(new Directory(path));
                 logger.info("Added " + path + " to directories.");
@@ -77,26 +63,24 @@ public class FileService {
 
     @Scheduled(fixedDelay = 10000)
     public void submitDeclarations() {
-        List<Pair<Directory, List<Document>>> directoryPairs = getDocumentsForSubmission();
-        submitDirectories(directoryPairs);
-    }
-
-    private void submitDirectories(List<Pair<Directory, List<Document>>> directoryPairs) {
-        directoryPairs.forEach(pair -> {
-            Directory directory = pair.getValue0();
-            List<Document> documents = pair.getValue1();
-            String certificatePrefix = directory.getCertificatePrefix();
+        directories.forEach(directory -> {
+            List<Document> documents = directory.listFiles();
 
             if (documents == null || documents.isEmpty()) {
                 logger.info("No new files in for " + directory.getBaseDirectory() + ".");
                 return;
             }
 
-            submitDocuments(documents, certificatePrefix, directory);
+            submitDocumentsForDirectory(directory, documents);
         });
     }
 
-    private void submitDocuments(List<Document> documents, String certificatePrefix, Directory directory) {
+    private void submitDocumentsForDirectory(
+            Directory directory,
+            List<Document> documents
+    ) {
+        String certificatePrefix = directory.getCertificatePrefix();
+
         documents.forEach(document -> {
             File file = document.file();
             ProcedureType procedureType = document.procedureType();
@@ -125,12 +109,5 @@ public class FileService {
                 throw new RuntimeException(e);
             }
         });
-    }
-
-    private List<Pair<Directory, List<Document>>> getDocumentsForSubmission() {
-        return directories
-                .stream()
-                .map(directory -> new Pair<>(directory, directory.listFiles()))
-                .toList();
     }
 }
