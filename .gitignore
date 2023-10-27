@@ -34,3 +34,4 @@ build/
 
 ### Ignore security directory
 /src/main/resources/security/
+/logs/

@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class As4DkcClient {
@@ -24,7 +25,6 @@ public class As4DkcClient {
 
     public As4DkcClient() {
         this.clients = new HashMap<>();
-        addCertificate("oces3");
     }
 
     public void addCertificate(String certificatePrefix) {
@@ -33,10 +33,7 @@ public class As4DkcClient {
 
     private As4Client getClientFromCertificatePrefix(String certificatePrefix) {
         As4Client client = this.clients.get(certificatePrefix);
-
-        if (client == null) {
-            throw new RuntimeException("No AS4Client registered with the given certificate.");
-        }
+        Objects.requireNonNull(client, "No AS4Client registered with the given certificate.");
 
         return client;
     }

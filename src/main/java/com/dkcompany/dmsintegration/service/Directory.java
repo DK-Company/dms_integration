@@ -12,45 +12,51 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Directory {
     @Getter
     private final File baseDirectory;
     private final File outDirectory;
+    @Getter
+    private final File inDirectory;
     private final File successDirectory;
     private final File errorDirectory;
     @Getter
     private final String certificatePrefix;
+    private final File certificateConfigFile;
 
     public Directory(String baseDirectoryString) {
         baseDirectory = new File(baseDirectoryString);
         outDirectory = new File(baseDirectory, "out");
+        inDirectory = new File(baseDirectory, "in");
         successDirectory = new File(baseDirectory, "success");
         errorDirectory = new File(baseDirectory, "error");
+        certificateConfigFile = new File(baseDirectory, "certificate.config");
 
         if (!baseDirectory.exists()) baseDirectory.mkdirs();
         if (!outDirectory.exists()) outDirectory.mkdir();
+        if (!inDirectory.exists()) inDirectory.mkdir();
         if (!successDirectory.exists()) successDirectory.mkdir();
         if (!errorDirectory.exists()) errorDirectory.mkdir();
 
-        this.certificatePrefix = getCertificatePrefixFromConfigFile(baseDirectory);
+        if (!certificateConfigFile.exists()) {
+            throw new RuntimeException("certificate.config was not found in " + baseDirectoryString);
+        }
+
+        this.certificatePrefix = getCertificatePrefixFromConfigFile();
     }
 
     /**
      * Expects a file called certificate.config in the root of the
      * base directory. Reads the first line of the file and returns
      * the value.
-     * @param baseDirectory file object of the base directory
      * @return value of the certificate prefix
      */
-    private String getCertificatePrefixFromConfigFile(File baseDirectory) {
-        var file = new File(baseDirectory, "certificate.config");
-        try (BufferedReader reader = Files.newReader(file, StandardCharsets.UTF_8)) {
+    private String getCertificatePrefixFromConfigFile() {
+        try (BufferedReader reader = Files.newReader(certificateConfigFile, StandardCharsets.UTF_8)) {
             String firstLine = reader.readLine();
-
-            if (firstLine == null) {
-                throw new RuntimeException("Could not set certificate prefix for: " + baseDirectory);
-            }
+            Objects.requireNonNull(firstLine, "Could not set certificate prefix for: " + baseDirectory);
 
             return firstLine;
         } catch (IOException e) {
