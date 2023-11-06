@@ -19,12 +19,6 @@ public class CryptoPropertiesFile {
         lines.put("org.apache.wss4j.crypto.merlin.keystore.alias", cryptoProperties.alias());
         lines.put("org.apache.wss4j.crypto.merlin.keystore.private.password", cryptoProperties.privatePassword());
 
-        // Trust Store
-        lines.put("org.apache.wss4j.crypto.merlin.truststore.file", "/security/trust-certificate.p12");
-        lines.put("org.apache.wss4j.crypto.merlin.truststore.password", "");
-        lines.put("org.apache.wss4j.crypto.merlin.truststore.alias", "secureftpgatewaytest.skat.dk (globalsign rsa ov ssl ca 2018)");
-        lines.put("org.apache.wss4j.crypto.merlin.truststore.type", "PKCS12");
-
         String fileContent = generateStringFromMap(lines);
         return writeToFile(fileContent);
     }

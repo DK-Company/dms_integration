@@ -7,6 +7,7 @@ import dk.toldst.eutk.as4client.As4Client;
 import dk.toldst.eutk.as4client.As4ClientResponseDto;
 import dk.toldst.eutk.as4client.builder.support.As4ClientBuilderInstance;
 import dk.toldst.eutk.as4client.exceptions.AS4Exception;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -22,9 +23,15 @@ import java.util.Objects;
 @Component
 public class As4DkcClient {
     private final Map<String, As4Client> clients;
+    private final String as4Endpoint;
 
-    public As4DkcClient() {
+    public As4DkcClient(@Value("${as4Endpoint:null}") String as4Endpoint) {
         this.clients = new HashMap<>();
+        if (as4Endpoint.equals("null")) {
+            this.as4Endpoint = "https://secureftpgatewaytest.skat.dk:6384";
+        } else {
+            this.as4Endpoint = as4Endpoint;
+        }
     }
 
     public void addCertificate(String certificatePrefix) {
@@ -81,10 +88,14 @@ public class As4DkcClient {
         );
     }
 
-    public As4ClientResponseDto pullNotifications(String certificatePrefix) throws AS4Exception {
+    public As4ClientResponseDto pullNotifications(String certificatePrefix) {
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
-        return client.executePull();
+        try {
+            return client.executePull();
+        } catch (AS4Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private As4Client createAs4Client(String certificatePrefix) {
@@ -114,7 +125,7 @@ public class As4DkcClient {
         try {
             return new As4ClientBuilderInstance()
                     .builder()
-                    .setEndpoint("https://secureftpgatewaytest.skat.dk:6384")
+                    .setEndpoint(this.as4Endpoint)
                     .setCrypto(cryptoPath)
                     .setPassword(gatewayPassword)
                     .build();

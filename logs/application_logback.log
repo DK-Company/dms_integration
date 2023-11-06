@@ -1,329 +1,247 @@
-2023-10-27 10:10:40 [main] INFO  : Starting Application using Java 20.0.2 with PID 9712 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
-2023-10-27 10:10:40 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
-2023-10-27 10:10:41 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-10-27 10:10:41 [main] INFO  : Finished Spring Data repository scanning in 75 ms. Found 1 JPA repository interfaces.
-2023-10-27 10:10:42 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
-2023-10-27 10:10:42 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:10:42 [main] INFO  : Starting service [Tomcat]
-2023-10-27 10:10:42 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
-2023-10-27 10:10:42 [main] INFO  : Initializing Spring embedded WebApplicationContext
-2023-10-27 10:10:42 [main] INFO  : Root WebApplicationContext: initialization completed in 2455 ms
-2023-10-27 10:10:42 [main] INFO  : HikariPool-1 - Starting...
-2023-10-27 10:10:43 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
-2023-10-27 10:10:43 [main] INFO  : HikariPool-1 - Start completed.
-2023-10-27 10:10:43 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
-2023-10-27 10:10:43 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-10-27 10:10:43 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
-2023-10-27 10:10:43 [main] INFO  : HHH000406: Using bytecode reflection optimizer
-2023-10-27 10:10:43 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:10:44 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
-2023-10-27 10:10:44 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:10:45 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-10-27 10:10:45 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:10:46 [main] INFO  : Added certificate cert2 to C:\Files\directory2
-2023-10-27 10:10:46 [main] INFO  : Added certificate oces3 to C:\Files\directory3
-2023-10-27 10:10:46 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-10-27 10:10:47 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:10:47 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-27 10:10:47 [main] INFO  : Started Application in 8.031 seconds (process running for 9.159)
-2023-10-27 10:10:47 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:10:47 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:10:57 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:10:57 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:11:07 [scheduling-3] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:11:07 [scheduling-3] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:11:17 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:11:17 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:11:20 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:11:20 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
-2023-10-27 10:11:20 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
-2023-10-27 10:12:39 [main] INFO  : Starting Application using Java 20.0.2 with PID 2644 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
-2023-10-27 10:12:39 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
-2023-10-27 10:12:40 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-10-27 10:12:41 [main] INFO  : Finished Spring Data repository scanning in 57 ms. Found 1 JPA repository interfaces.
-2023-10-27 10:12:41 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
-2023-10-27 10:12:41 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:12:41 [main] INFO  : Starting service [Tomcat]
-2023-10-27 10:12:41 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
-2023-10-27 10:12:42 [main] INFO  : Initializing Spring embedded WebApplicationContext
-2023-10-27 10:12:42 [main] INFO  : Root WebApplicationContext: initialization completed in 1992 ms
-2023-10-27 10:12:42 [main] INFO  : HikariPool-1 - Starting...
-2023-10-27 10:12:42 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
-2023-10-27 10:12:42 [main] INFO  : HikariPool-1 - Start completed.
-2023-10-27 10:12:42 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
-2023-10-27 10:12:42 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-10-27 10:12:42 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
-2023-10-27 10:12:42 [main] INFO  : HHH000406: Using bytecode reflection optimizer
-2023-10-27 10:12:43 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:12:43 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
-2023-10-27 10:12:43 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:12:44 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-10-27 10:12:44 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:12:44 [main] INFO  : Added certificate cert2 to C:\Files\directory2
-2023-10-27 10:12:44 [main] INFO  : Added certificate oces3 to C:\Files\directory3
-2023-10-27 10:12:44 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-10-27 10:12:45 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:12:45 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-27 10:12:45 [main] INFO  : Started Application in 6.435 seconds (process running for 7.258)
-2023-10-27 10:12:45 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:12:45 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:12:55 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:12:55 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:13:05 [scheduling-3] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:13:05 [scheduling-3] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:13:15 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:13:15 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:13:25 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:13:25 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:13:35 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:13:35 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:13:45 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:13:45 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:13:55 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:13:55 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:14:05 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:14:05 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:14:13 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:14:13 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
-2023-10-27 10:14:13 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
-2023-10-27 10:29:38 [main] INFO  : Starting Application using Java 20.0.2 with PID 16724 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
-2023-10-27 10:29:38 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
-2023-10-27 10:29:39 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-10-27 10:29:39 [main] INFO  : Finished Spring Data repository scanning in 59 ms. Found 1 JPA repository interfaces.
-2023-10-27 10:29:40 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
-2023-10-27 10:29:40 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:29:40 [main] INFO  : Starting service [Tomcat]
-2023-10-27 10:29:40 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
-2023-10-27 10:29:40 [main] INFO  : Initializing Spring embedded WebApplicationContext
-2023-10-27 10:29:40 [main] INFO  : Root WebApplicationContext: initialization completed in 1942 ms
-2023-10-27 10:29:40 [main] INFO  : HikariPool-1 - Starting...
-2023-10-27 10:29:40 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
-2023-10-27 10:29:40 [main] INFO  : HikariPool-1 - Start completed.
-2023-10-27 10:29:40 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
-2023-10-27 10:29:40 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-10-27 10:29:41 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
-2023-10-27 10:29:41 [main] INFO  : HHH000406: Using bytecode reflection optimizer
-2023-10-27 10:29:41 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:29:41 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
-2023-10-27 10:29:41 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:29:42 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-10-27 10:29:42 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:29:43 [main] INFO  : Added certificate cert2 to C:\Files\directory2
-2023-10-27 10:29:43 [main] INFO  : Added certificate oces3 to C:\Files\directory3
-2023-10-27 10:29:43 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-10-27 10:29:44 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:29:44 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-27 10:29:44 [main] INFO  : Started Application in 6.314 seconds (process running for 7.136)
-2023-10-27 10:29:44 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:29:44 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:29:54 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:29:54 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:30:04 [scheduling-3] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:30:04 [scheduling-3] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:30:14 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:30:14 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:30:24 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:30:24 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:30:34 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:30:34 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:30:44 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:30:44 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:30:54 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:30:54 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:31:04 [scheduling-2] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:31:04 [scheduling-2] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:31:12 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:31:12 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
-2023-10-27 10:31:12 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
-2023-10-27 10:31:17 [main] INFO  : Starting Application using Java 20.0.2 with PID 2464 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
-2023-10-27 10:31:17 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
-2023-10-27 10:31:18 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-10-27 10:31:18 [main] INFO  : Finished Spring Data repository scanning in 59 ms. Found 1 JPA repository interfaces.
-2023-10-27 10:31:19 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
-2023-10-27 10:31:19 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:31:19 [main] INFO  : Starting service [Tomcat]
-2023-10-27 10:31:19 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
-2023-10-27 10:31:19 [main] INFO  : Initializing Spring embedded WebApplicationContext
-2023-10-27 10:31:19 [main] INFO  : Root WebApplicationContext: initialization completed in 1973 ms
-2023-10-27 10:31:19 [main] INFO  : HikariPool-1 - Starting...
-2023-10-27 10:31:19 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
-2023-10-27 10:31:19 [main] INFO  : HikariPool-1 - Start completed.
-2023-10-27 10:31:19 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
-2023-10-27 10:31:20 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-10-27 10:31:20 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
-2023-10-27 10:31:20 [main] INFO  : HHH000406: Using bytecode reflection optimizer
-2023-10-27 10:31:20 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:31:20 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
-2023-10-27 10:31:20 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:31:21 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-10-27 10:31:21 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:31:22 [main] INFO  : Added certificate cert2 to C:\Files\directory2
-2023-10-27 10:31:22 [main] INFO  : Added certificate oces3 to C:\Files\directory3
-2023-10-27 10:31:22 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-10-27 10:31:23 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:31:23 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-27 10:31:23 [main] INFO  : Started Application in 6.287 seconds (process running for 7.039)
-2023-10-27 10:31:23 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:31:23 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:31:33 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:31:33 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:31:43 [scheduling-3] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:31:43 [scheduling-3] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:31:53 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:31:53 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:32:03 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:32:03 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:32:13 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:32:13 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:32:23 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:32:23 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:32:33 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:32:33 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:32:43 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:32:43 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:32:53 [scheduling-1] INFO  : No new files in for C:\Files\directory2.
-2023-10-27 10:32:53 [scheduling-1] INFO  : No new files in for C:\Files\directory3.
-2023-10-27 10:32:58 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:32:58 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
-2023-10-27 10:32:58 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
-2023-10-27 10:48:01 [main] INFO  : Starting Application using Java 20.0.2 with PID 16336 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
-2023-10-27 10:48:01 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
-2023-10-27 10:48:02 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-10-27 10:48:02 [main] INFO  : Finished Spring Data repository scanning in 58 ms. Found 1 JPA repository interfaces.
-2023-10-27 10:48:03 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
-2023-10-27 10:48:03 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:48:03 [main] INFO  : Starting service [Tomcat]
-2023-10-27 10:48:03 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
-2023-10-27 10:48:03 [main] INFO  : Initializing Spring embedded WebApplicationContext
-2023-10-27 10:48:03 [main] INFO  : Root WebApplicationContext: initialization completed in 1981 ms
-2023-10-27 10:48:03 [main] INFO  : HikariPool-1 - Starting...
-2023-10-27 10:48:03 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
-2023-10-27 10:48:03 [main] INFO  : HikariPool-1 - Start completed.
-2023-10-27 10:48:03 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
-2023-10-27 10:48:04 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-10-27 10:48:04 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
-2023-10-27 10:48:04 [main] INFO  : HHH000406: Using bytecode reflection optimizer
-2023-10-27 10:48:04 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:48:04 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
-2023-10-27 10:48:05 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
-2023-10-27 10:48:05 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-10-27 10:48:05 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:48:06 [main] INFO  : Added certificate cert2 to C:\Files\directory2
-2023-10-27 10:48:06 [main] INFO  : Added certificate oces3 to C:\Files\directory3
-2023-10-27 10:48:06 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-10-27 10:48:07 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
-2023-10-27 10:48:07 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-27 10:48:07 [main] INFO  : Started Application in 6.403 seconds (process running for 7.141)
-2023-10-27 10:48:07 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:48:07 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:48:17 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:48:17 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:48:27 [scheduling-3] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:48:27 [scheduling-3] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:48:37 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:48:37 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:48:47 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:48:47 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:48:57 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:48:57 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:49:07 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:49:07 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:49:17 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:49:17 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:49:27 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:49:27 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:49:37 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:49:37 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:49:47 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:49:47 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:49:57 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:49:57 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:50:07 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:50:07 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:50:17 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:50:17 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:50:27 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:50:27 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:50:37 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:50:37 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:50:47 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:50:47 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:50:57 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:50:57 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:51:07 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:51:07 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:51:17 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:51:17 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:51:27 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:51:27 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:51:37 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:51:37 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:51:47 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:51:47 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:51:57 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:51:57 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:52:07 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:52:07 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:52:17 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:52:17 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:52:27 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:52:27 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:52:37 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:52:37 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:52:47 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:52:47 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:52:57 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:52:57 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:53:07 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:53:07 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:53:17 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:53:17 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:53:27 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:53:27 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:53:37 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:53:37 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:53:47 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:53:47 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:53:57 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:53:57 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:54:07 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:54:07 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:54:17 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:54:17 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:54:27 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:54:27 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:54:37 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:54:37 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:54:47 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:54:47 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:54:57 [scheduling-2] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:54:57 [scheduling-2] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:55:07 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:55:07 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:55:17 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:55:17 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:55:27 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:55:27 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:55:37 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:55:37 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:55:47 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:55:47 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:55:57 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:55:57 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:56:07 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:56:07 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:56:17 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:56:17 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:56:27 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:56:27 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:56:37 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:56:37 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:56:47 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:56:47 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:56:57 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:56:57 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:57:08 [scheduling-4] INFO  : No new files for C:\Files\directory2.
-2023-10-27 10:57:08 [scheduling-4] INFO  : No new files for C:\Files\directory3.
-2023-10-27 10:57:16 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-10-27 10:57:16 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
-2023-10-27 10:57:16 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
+2023-11-03 09:42:12 [main] INFO  : Starting Application using Java 20.0.2 with PID 2300 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
+2023-11-03 09:42:12 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
+2023-11-03 09:42:14 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-11-03 09:42:14 [main] INFO  : Finished Spring Data repository scanning in 63 ms. Found 1 JPA repository interfaces.
+2023-11-03 09:42:15 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
+2023-11-03 09:42:15 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
+2023-11-03 09:42:15 [main] INFO  : Starting service [Tomcat]
+2023-11-03 09:42:15 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-11-03 09:42:15 [main] INFO  : Initializing Spring embedded WebApplicationContext
+2023-11-03 09:42:15 [main] INFO  : Root WebApplicationContext: initialization completed in 2262 ms
+2023-11-03 09:42:15 [main] INFO  : HikariPool-1 - Starting...
+2023-11-03 09:42:15 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
+2023-11-03 09:42:15 [main] INFO  : HikariPool-1 - Start completed.
+2023-11-03 09:42:15 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
+2023-11-03 09:42:16 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-11-03 09:42:16 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-11-03 09:42:16 [main] INFO  : HHH000406: Using bytecode reflection optimizer
+2023-11-03 09:42:16 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-11-03 09:42:16 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-11-03 09:42:17 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-11-03 09:42:17 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-11-03 09:42:17 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-11-03 09:42:18 [main] INFO  : Added certificate cert2 to C:\Files\directory2
+2023-11-03 09:42:18 [main] INFO  : Added certificate oces3 to C:\Files\directory3
+2023-11-03 09:42:18 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-11-03 09:42:19 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
+2023-11-03 09:42:19 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-11-03 09:42:19 [main] INFO  : Started Application in 7.337 seconds (process running for 8.361)
+2023-11-03 09:42:20 [ForkJoinPool.commonPool-worker-1] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:42:20 [ForkJoinPool.commonPool-worker-2] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:42:20 [scheduling-2] ERROR : Unexpected error occurred in scheduled task
+java.util.concurrent.CompletionException: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1770)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:124)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestOldNotifications(NotificationService.java:140)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestNotifications(NotificationService.java:39)
+	at com.dkcompany.dmsintegration.service.NotificationService.pushNotificationRequests(NotificationService.java:80)
+	at com.dkcompany.dmsintegration.service.FileService.lambda$retrieveNotifications$4(FileService.java:86)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	... 6 common frames omitted
+Caused by: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:116)
+	at dk.toldst.eutk.as4client.As4ClientInstance.executePush(As4ClientInstance.java:43)
+	at com.dkcompany.dmsintegration.util.As4DkcClient.pushNotificationRequest(As4DkcClient.java:79)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:122)
+	... 11 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:134)
+	at dk.toldst.eutk.as4client.as4.As4SecurityDecorator.call(As4SecurityDecorator.java:34)
+	at dk.toldst.eutk.as4client.as4.As4HttpClient.sendRequest(As4HttpClient.java:114)
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:112)
+	... 14 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.post(HttpSOAPConnection.java:249)
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:130)
+	... 17 common frames omitted
+2023-11-03 09:42:39 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-11-03 09:42:39 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
+2023-11-03 09:42:39 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.
+2023-11-03 09:44:23 [main] INFO  : Starting Application using Java 20.0.2 with PID 748 (C:\Repos\dmsintegration\target\classes started by ebh.it-minds.dk in C:\Repos\dmsintegration)
+2023-11-03 09:44:23 [main] INFO  : No active profile set, falling back to 1 default profile: "default"
+2023-11-03 09:44:24 [main] INFO  : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-11-03 09:44:24 [main] INFO  : Finished Spring Data repository scanning in 57 ms. Found 1 JPA repository interfaces.
+2023-11-03 09:44:25 [main] INFO  : Tomcat initialized with port(s): 8080 (http)
+2023-11-03 09:44:25 [main] INFO  : Initializing ProtocolHandler ["http-nio-8080"]
+2023-11-03 09:44:25 [main] INFO  : Starting service [Tomcat]
+2023-11-03 09:44:25 [main] INFO  : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-11-03 09:44:25 [main] INFO  : Initializing Spring embedded WebApplicationContext
+2023-11-03 09:44:25 [main] INFO  : Root WebApplicationContext: initialization completed in 1899 ms
+2023-11-03 09:44:25 [main] INFO  : HikariPool-1 - Starting...
+2023-11-03 09:44:25 [main] INFO  : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:C:/Databases/notification user=SA
+2023-11-03 09:44:25 [main] INFO  : HikariPool-1 - Start completed.
+2023-11-03 09:44:25 [main] INFO  : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:C:/Databases/notification'
+2023-11-03 09:44:25 [main] INFO  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-11-03 09:44:25 [main] INFO  : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-11-03 09:44:25 [main] INFO  : HHH000406: Using bytecode reflection optimizer
+2023-11-03 09:44:26 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-11-03 09:44:26 [main] INFO  : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-11-03 09:44:26 [main] INFO  : HHH000021: Bytecode provider name : bytebuddy
+2023-11-03 09:44:27 [main] INFO  : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-11-03 09:44:27 [main] INFO  : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-11-03 09:44:28 [main] INFO  : Added certificate cert2 to C:\Files\directory2
+2023-11-03 09:44:28 [main] INFO  : Added certificate oces3 to C:\Files\directory3
+2023-11-03 09:44:28 [main] WARN  : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-11-03 09:44:28 [main] INFO  : Starting ProtocolHandler ["http-nio-8080"]
+2023-11-03 09:44:28 [main] INFO  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-11-03 09:44:28 [main] INFO  : Started Application in 5.936 seconds (process running for 6.686)
+2023-11-03 09:44:29 [ForkJoinPool.commonPool-worker-2] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:44:29 [ForkJoinPool.commonPool-worker-1] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:44:29 [scheduling-2] ERROR : Unexpected error occurred in scheduled task
+java.util.concurrent.CompletionException: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1770)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:124)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestOldNotifications(NotificationService.java:140)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestNotifications(NotificationService.java:39)
+	at com.dkcompany.dmsintegration.service.NotificationService.pushNotificationRequests(NotificationService.java:80)
+	at com.dkcompany.dmsintegration.service.FileService.lambda$retrieveNotifications$4(FileService.java:86)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	... 6 common frames omitted
+Caused by: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:116)
+	at dk.toldst.eutk.as4client.As4ClientInstance.executePush(As4ClientInstance.java:43)
+	at com.dkcompany.dmsintegration.util.As4DkcClient.pushNotificationRequest(As4DkcClient.java:79)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:122)
+	... 11 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:134)
+	at dk.toldst.eutk.as4client.as4.As4SecurityDecorator.call(As4SecurityDecorator.java:34)
+	at dk.toldst.eutk.as4client.as4.As4HttpClient.sendRequest(As4HttpClient.java:114)
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:112)
+	... 14 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.post(HttpSOAPConnection.java:249)
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:130)
+	... 17 common frames omitted
+2023-11-03 09:49:29 [ForkJoinPool.commonPool-worker-4] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:49:29 [ForkJoinPool.commonPool-worker-3] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:49:29 [scheduling-1] ERROR : Unexpected error occurred in scheduled task
+java.util.concurrent.CompletionException: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1770)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:124)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestOldNotifications(NotificationService.java:140)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestNotifications(NotificationService.java:39)
+	at com.dkcompany.dmsintegration.service.NotificationService.pushNotificationRequests(NotificationService.java:80)
+	at com.dkcompany.dmsintegration.service.FileService.lambda$retrieveNotifications$4(FileService.java:86)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	... 6 common frames omitted
+Caused by: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:116)
+	at dk.toldst.eutk.as4client.As4ClientInstance.executePush(As4ClientInstance.java:43)
+	at com.dkcompany.dmsintegration.util.As4DkcClient.pushNotificationRequest(As4DkcClient.java:79)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:122)
+	... 11 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:134)
+	at dk.toldst.eutk.as4client.as4.As4SecurityDecorator.call(As4SecurityDecorator.java:34)
+	at dk.toldst.eutk.as4client.as4.As4HttpClient.sendRequest(As4HttpClient.java:114)
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:112)
+	... 14 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.post(HttpSOAPConnection.java:249)
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:130)
+	... 17 common frames omitted
+2023-11-03 09:54:29 [ForkJoinPool.commonPool-worker-5] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:54:29 [scheduling-2] ERROR : Unexpected error occurred in scheduled task
+java.util.concurrent.CompletionException: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1770)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:124)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestOldNotifications(NotificationService.java:140)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestNotifications(NotificationService.java:39)
+	at com.dkcompany.dmsintegration.service.NotificationService.pushNotificationRequests(NotificationService.java:80)
+	at com.dkcompany.dmsintegration.service.FileService.lambda$retrieveNotifications$4(FileService.java:86)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	... 6 common frames omitted
+Caused by: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:116)
+	at dk.toldst.eutk.as4client.As4ClientInstance.executePush(As4ClientInstance.java:43)
+	at com.dkcompany.dmsintegration.util.As4DkcClient.pushNotificationRequest(As4DkcClient.java:79)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:122)
+	... 11 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:134)
+	at dk.toldst.eutk.as4client.as4.As4SecurityDecorator.call(As4SecurityDecorator.java:34)
+	at dk.toldst.eutk.as4client.as4.As4HttpClient.sendRequest(As4HttpClient.java:114)
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:112)
+	... 14 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.post(HttpSOAPConnection.java:249)
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:130)
+	... 17 common frames omitted
+2023-11-03 09:54:29 [ForkJoinPool.commonPool-worker-6] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:59:29 [ForkJoinPool.commonPool-worker-8] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:59:29 [ForkJoinPool.commonPool-worker-7] ERROR : SAAJ0008: Bad Response; Service Unavailable
+2023-11-03 09:59:29 [scheduling-1] ERROR : Unexpected error occurred in scheduled task
+java.util.concurrent.CompletionException: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1770)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.RuntimeException: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:124)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestOldNotifications(NotificationService.java:140)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestNotifications(NotificationService.java:39)
+	at com.dkcompany.dmsintegration.service.NotificationService.pushNotificationRequests(NotificationService.java:80)
+	at com.dkcompany.dmsintegration.service.FileService.lambda$retrieveNotifications$4(FileService.java:86)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	... 6 common frames omitted
+Caused by: dk.toldst.eutk.as4client.exceptions.AS4Exception: Failed to send (or receive) message
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:116)
+	at dk.toldst.eutk.as4client.As4ClientInstance.executePush(As4ClientInstance.java:43)
+	at com.dkcompany.dmsintegration.util.As4DkcClient.pushNotificationRequest(As4DkcClient.java:79)
+	at com.dkcompany.dmsintegration.service.NotificationService.requestRecentNotifications(NotificationService.java:122)
+	... 11 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:134)
+	at dk.toldst.eutk.as4client.as4.As4SecurityDecorator.call(As4SecurityDecorator.java:34)
+	at dk.toldst.eutk.as4client.as4.As4HttpClient.sendRequest(As4HttpClient.java:114)
+	at dk.toldst.eutk.as4client.As4ClientInstance.internalPush(As4ClientInstance.java:112)
+	... 14 common frames omitted
+Caused by: com.sun.xml.messaging.saaj.SOAPExceptionImpl: Bad response: (503Service Unavailable
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.post(HttpSOAPConnection.java:249)
+	at com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnection.call(HttpSOAPConnection.java:130)
+	... 17 common frames omitted
+2023-11-03 09:59:48 [SpringApplicationShutdownHook] INFO  : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-11-03 09:59:48 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown initiated...
+2023-11-03 09:59:48 [SpringApplicationShutdownHook] INFO  : HikariPool-1 - Shutdown completed.

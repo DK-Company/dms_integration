@@ -13,4 +13,5 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     private LocalDateTime timestamp;
+    private String certificatePrefix;
 }

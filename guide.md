@@ -1,4 +1,4 @@
-# Guide for using the test tool
+# Guide for using the client
 
 ## Adding directories
 Directories can be added for files to be picked up.
@@ -51,6 +51,8 @@ When running the jar, a file named `application.properties` must be placed in th
 This file contains the configuration of the program:
 ```properties
 directoryPaths=C:\\Path\\To\\Directory1;C:\\Path\\To\\Directory2
+as4Endpoint=https://secureftpgatewaytest.skat.dk:6384
 ```
 
 - `directoryPaths`: list of directories where files are picked up from. Separated by semicolons.
+- `as4Endpoint`: the endpoint used for communication with DMS. Used to switch between test and prod.
