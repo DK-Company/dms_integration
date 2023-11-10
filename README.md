@@ -6,19 +6,12 @@ Prerequisites:
 - Maven
 - VOCES certificate
 
-## Secrets
-Secrets are stored in the directory `resources/security` which is not under source control.
-This means that when the repository is pulled to a new machine these files need to be added manually.
+## Using the tool
+A guide to using the tool can be found [here](guide.md).
 
-Specifically the following files are stored in `resources/security`:
-### as4-crypto.properties
-```properties
-# Company Keystore
-org.apache.wss4j.crypto.merlin.keystore.file=<path to certificate file>
-org.apache.wss4j.crypto.merlin.keystore.password=<certificate password>
-org.apache.wss4j.crypto.merlin.keystore.type=PKCS12
-org.apache.wss4j.crypto.merlin.keystore.alias=DK COMPANY A/S - DK Company A/S
-org.apache.wss4j.crypto.merlin.keystore.private.password=<private key password>
-```
-### certificate.properties
-### The certificate file
+## The Simple-as4-Client package
+A custom version of the Simple-as4-client has been compiled and the jar is found at: `packages/io/github/skat/as4-client/2.2.0-local/as4-client-2.2.0-local.jar`.
+
+This version of as4-client has been modified so that OCES3 certificates can be used.
+
+This jar must be added as a maven dependency.
