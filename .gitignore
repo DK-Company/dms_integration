@@ -35,3 +35,6 @@ build/
 ### Ignore security directory
 /src/main/resources/security/
 /logs/
+
+##Ignore database_files (github crashes because of notification database file)
+/C:/Databases/notification.mv.db
