@@ -77,7 +77,7 @@ public class As4DkcClient {
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
         return client.executePush(
-                "DMS.Export2",
+                "DMS.Export",
                 "Notification",
                 Map.of(
                         "lang", "EN",
@@ -116,12 +116,10 @@ public class As4DkcClient {
         if (!Files.exists(Paths.get(certificatePath))) {
             throw new RuntimeException("No certificate found at: " + certificatePath);
         }
-
         File cryptoPropertiesFile = CryptoPropertiesFile.generate(cryptoProperties);
 
         String cryptoPath = cryptoPropertiesFile.getAbsolutePath();
         String gatewayPassword = System.getenv(certificatePrefix + ".gatewayPassword");
-
         try {
             return new As4ClientBuilderInstance()
                     .builder()

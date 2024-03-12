@@ -25,8 +25,7 @@
 		<dependency>
 			<groupId>io.github.skat</groupId>
 			<artifactId>as4-client</artifactId>
-			<version>2.2.0-local</version>
-			<exclusions>
+			<version>3.0.0</version><exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -36,6 +35,13 @@
 					<artifactId>slf4j-simple</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+	<!-- The dependency below is added to overwrite a dependency inside the simpleas4client. There are two packages -->
+		<!-- that are not compatible inside simpleas4client causing a crash. this upgrade fixes the issue -->
+		<dependency>
+			<groupId>org.apache.wss4j</groupId>
+			<artifactId>wss4j-ws-security-common</artifactId>
+			<version>2.3.4</version>
 		</dependency>
 
 		<dependency>

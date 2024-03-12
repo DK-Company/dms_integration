@@ -51,7 +51,6 @@ public class FileService {
                     .stream(directoryPaths.split(";"))
                     .filter(p -> Files.exists(Paths.get(p)))
                     .toList();
-
             paths.forEach(path -> {
                 directories.add(new Directory(path));
                 logger.info("Added " + path + " to directories.");
