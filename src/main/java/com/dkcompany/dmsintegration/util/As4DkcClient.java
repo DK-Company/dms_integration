@@ -1,5 +1,6 @@
 package com.dkcompany.dmsintegration.util;
 
+import com.dkcompany.dmsintegration.Application;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.CryptoProperties;
@@ -106,7 +107,12 @@ public class As4DkcClient {
             certificatePrefix = "oces3";
         }
 
-        File propertiesConfigFile = new File("C:\\Files\\directory2", "properties.config");
+        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
+        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
+        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
+        System.out.println(basePath + "/" + rootPackagePath);
+
+        File propertiesConfigFile = new File(basePath + "/" + rootPackagePath, "properties.config");
 
         Properties properties = new Properties();
         try (InputStream inputStream = new FileInputStream(propertiesConfigFile)) {
