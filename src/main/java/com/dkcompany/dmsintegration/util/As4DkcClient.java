@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 
 @Component
 public class As4DkcClient {
@@ -103,23 +106,30 @@ public class As4DkcClient {
             certificatePrefix = "oces3";
         }
 
+        Properties properties = new Properties();
+        try (InputStream inputStream = new FileInputStream("C:\\Files\\directory2")) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle error
+        }
+
         var cryptoProperties = new CryptoProperties(
-                System.getenv(certificatePrefix + ".file"),
-                System.getenv(certificatePrefix + ".password"),
-                System.getenv(certificatePrefix + ".type"),
-                System.getenv(certificatePrefix + ".alias"),
-                System.getenv(certificatePrefix + ".privatePassword")
+                properties.getProperty("file"),
+                properties.getProperty("password"),
+                properties.getProperty("type"),
+                properties.getProperty("alias"),
+                properties.getProperty("privatePassword")
         );
 
         // assert that path to certificate exists - ensures more readable exception if wrong path
-        String certificatePath = System.getenv(certificatePrefix + ".file");
+        String certificatePath = properties.getProperty("file");
         if (!Files.exists(Paths.get(certificatePath))) {
             throw new RuntimeException("No certificate found at: " + certificatePath);
         }
         File cryptoPropertiesFile = CryptoPropertiesFile.generate(cryptoProperties);
 
         String cryptoPath = cryptoPropertiesFile.getAbsolutePath();
-        String gatewayPassword = System.getenv(certificatePrefix + ".gatewayPassword");
+        String gatewayPassword = properties.getProperty("gatewayPassword");
         try {
             return new As4ClientBuilderInstance()
                     .builder()
