@@ -1,5 +1,6 @@
 package com.dkcompany.dmsintegration.service;
 
+import com.dkcompany.dmsintegration.Application;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.Document;
@@ -44,7 +45,7 @@ public class FileService {
 
     private void addDirectories(String directoryPaths) {
         if (directoryPaths.equals("null")) {
-        String rootPackageName = YourApplication.class.getPackageName(); // get the package name of the project
+        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
         String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
         String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
         System.out.println(basePath + "/" + rootPackagePath);
