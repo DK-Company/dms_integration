@@ -116,7 +116,7 @@ public class NotificationService {
     }
 
     private void requestRecentNotifications(LocalDateTime now, String certificatePrefix) {
-        LocalDateTime then = now.minusMinutes(5);
+        LocalDateTime then = now.minusMinutes(7);
 
         try {
             as4DkcClient.pushNotificationRequest(then, now, certificatePrefix);

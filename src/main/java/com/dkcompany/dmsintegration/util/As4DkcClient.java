@@ -92,7 +92,7 @@ public class As4DkcClient {
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
         try {
-            return client.executePull();
+            return client.executePull("urn:fdc:dk.skat.mft.DMS/response/CVR_24431118"); // needs specific
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
