@@ -45,7 +45,7 @@ public class FileService {
     private void addDirectories(String directoryPaths) {
         if (directoryPaths.equals("null")) {
             directories.add(new Directory("C:\\Files\\directory2"));
-            directories.add(new Directory("C:\\Files\\directory3"));
+            //directories.add(new Directory("C:\\Files\\directory3"));
         } else {
             List<String> paths = Arrays
                     .stream(directoryPaths.split(";"))

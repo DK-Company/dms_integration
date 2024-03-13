@@ -106,8 +106,10 @@ public class As4DkcClient {
             certificatePrefix = "oces3";
         }
 
+        File propertiesConfigFile = new File("C:\\Files\\directory2", "properties.config");
+
         Properties properties = new Properties();
-        try (InputStream inputStream = new FileInputStream("C:\\Files\\directory2")) {
+        try (InputStream inputStream = new FileInputStream(propertiesConfigFile)) {
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace(); // Handle error
