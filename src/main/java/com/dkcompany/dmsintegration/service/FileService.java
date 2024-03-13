@@ -44,7 +44,11 @@ public class FileService {
 
     private void addDirectories(String directoryPaths) {
         if (directoryPaths.equals("null")) {
-            directories.add(new Directory("C:\\Files\\directory2"));
+        String rootPackageName = YourApplication.class.getPackageName(); // get the package name of the project
+        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
+        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
+        System.out.println(basePath + "/" + rootPackagePath);
+        directories.add(new Directory(basePath + "/" + rootPackagePath)); // send absolute path in constructor to set inner basePath
             //directories.add(new Directory("C:\\Files\\directory3"));
         } else {
             List<String> paths = Arrays
