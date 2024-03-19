@@ -95,8 +95,24 @@ public class As4DkcClient {
     public As4ClientResponseDto pullNotifications(String certificatePrefix) {
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
+        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
+        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
+        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
+        System.out.println(basePath + "/" + rootPackagePath);
+
+        File propertiesConfigFile = new File(basePath + "/" + rootPackagePath, "properties.config");
+
+        Properties properties = new Properties();
+        try (InputStream inputStream = new FileInputStream(propertiesConfigFile)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle error
+        }
+
+        String notificationQueueURL = properties.getProperty("notificationQueueURL");
+
         try {
-            return client.executePull("urn:fdc:dk.skat.mft.DMS/response/CVR_24431118"); // needs specific
+            return client.executePull(notificationQueueURL); // needs specific
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
