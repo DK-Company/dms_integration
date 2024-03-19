@@ -38,3 +38,5 @@ build/
 
 ##Ignore database_files (github crashes because of notification database file)
 /C:/Databases/notification.mv.db
+/com/dkcompany/dmsintegration
+*.config

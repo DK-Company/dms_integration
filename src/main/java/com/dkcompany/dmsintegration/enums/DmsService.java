@@ -1,8 +1,8 @@
 package com.dkcompany.dmsintegration.enums;
 
 public enum DmsService {
-    Export2("DMS.Export2"),
-    Import2("DMS.Import2");
+    Export2("DMS.Export"),
+    Import2("DMS.Import");
 
     public final String value;
 

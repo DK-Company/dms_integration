@@ -25,8 +25,7 @@
 		<dependency>
 			<groupId>io.github.skat</groupId>
 			<artifactId>as4-client</artifactId>
-			<version>2.2.0-local</version>
-			<exclusions>
+			<version>3.0.0</version><exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -36,6 +35,13 @@
 					<artifactId>slf4j-simple</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+	<!-- The dependency below is added to overwrite a dependency inside the simpleas4client. There are two packages -->
+		<!-- that are not compatible inside simpleas4client causing a crash. this upgrade fixes the issue -->
+		<dependency>
+			<groupId>org.apache.wss4j</groupId>
+			<artifactId>wss4j-ws-security-common</artifactId>
+			<version>2.3.4</version>
 		</dependency>
 
 		<dependency>
@@ -54,6 +60,7 @@
 			<groupId>com.sun.xml.messaging.saaj</groupId>
 			<artifactId>saaj-impl</artifactId>
 			<version>1.5.1</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -94,6 +101,13 @@
 			<artifactId>guava</artifactId>
 			<version>16.0.1</version>
 		</dependency>
+
+		<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.0</version>
+    <scope>test</scope>
+</dependency>
 	</dependencies>
 
 	<build>
@@ -102,6 +116,23 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.5.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>jackofall</shadedClassifierName> <!-- Any name that makes sense -->
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

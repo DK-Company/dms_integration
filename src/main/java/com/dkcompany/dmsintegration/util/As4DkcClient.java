@@ -1,5 +1,6 @@
 package com.dkcompany.dmsintegration.util;
 
+import com.dkcompany.dmsintegration.Application;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.CryptoProperties;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 
 @Component
 public class As4DkcClient {
@@ -77,7 +81,7 @@ public class As4DkcClient {
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
         return client.executePush(
-                "DMS.Export2",
+                "DMS.Export",
                 "Notification",
                 Map.of(
                         "lang", "EN",
@@ -91,8 +95,24 @@ public class As4DkcClient {
     public As4ClientResponseDto pullNotifications(String certificatePrefix) {
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
+        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
+        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
+        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
+        System.out.println(basePath + "/" + rootPackagePath);
+
+        File propertiesConfigFile = new File(basePath + "/" + rootPackagePath, "properties.config");
+
+        Properties properties = new Properties();
+        try (InputStream inputStream = new FileInputStream(propertiesConfigFile)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle error
+        }
+
+        String notificationQueueURL = properties.getProperty("notificationQueueURL");
+
         try {
-            return client.executePull();
+            return client.executePull(notificationQueueURL); // needs specific
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
@@ -103,25 +123,37 @@ public class As4DkcClient {
             certificatePrefix = "oces3";
         }
 
+        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
+        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
+        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
+        System.out.println(basePath + "/" + rootPackagePath);
+
+        File propertiesConfigFile = new File(basePath + "/" + rootPackagePath, "properties.config");
+
+        Properties properties = new Properties();
+        try (InputStream inputStream = new FileInputStream(propertiesConfigFile)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle error
+        }
+
         var cryptoProperties = new CryptoProperties(
-                System.getenv(certificatePrefix + ".file"),
-                System.getenv(certificatePrefix + ".password"),
-                System.getenv(certificatePrefix + ".type"),
-                System.getenv(certificatePrefix + ".alias"),
-                System.getenv(certificatePrefix + ".privatePassword")
+                properties.getProperty("file"),
+                properties.getProperty("password"),
+                properties.getProperty("type"),
+                properties.getProperty("alias"),
+                properties.getProperty("privatePassword")
         );
 
         // assert that path to certificate exists - ensures more readable exception if wrong path
-        String certificatePath = System.getenv(certificatePrefix + ".file");
+        String certificatePath = properties.getProperty("file");
         if (!Files.exists(Paths.get(certificatePath))) {
             throw new RuntimeException("No certificate found at: " + certificatePath);
         }
-
         File cryptoPropertiesFile = CryptoPropertiesFile.generate(cryptoProperties);
 
         String cryptoPath = cryptoPropertiesFile.getAbsolutePath();
-        String gatewayPassword = System.getenv(certificatePrefix + ".gatewayPassword");
-
+        String gatewayPassword = properties.getProperty("gatewayPassword");
         try {
             return new As4ClientBuilderInstance()
                     .builder()
