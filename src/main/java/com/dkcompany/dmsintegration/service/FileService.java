@@ -15,11 +15,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
@@ -34,39 +39,53 @@ public class FileService {
 
     public FileService(
             As4DkcClient as4DkcClient,
-            @Value("${directoryPaths:null}") String directoryPaths,
+            @Value("${configPath:null}") String configPath,
             NotificationService notificationService) {
         this.as4DkcClient = as4DkcClient;
         this.notificationService = notificationService;
         this.directories = new ArrayList<>();
 
-        addDirectories(directoryPaths);
+        addDirectories(configPath);
     }
 
-    private void addDirectories(String directoryPaths) {
-        if (directoryPaths.equals("null")) {
-        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
-        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
-        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
-        System.out.println(basePath + "/" + rootPackagePath);
-        directories.add(new Directory(basePath + "/" + rootPackagePath)); // send absolute path in constructor to set inner basePath
-            //directories.add(new Directory("C:\\Files\\directory3"));
-        } else {
-            List<String> paths = Arrays
-                    .stream(directoryPaths.split(";"))
-                    .filter(p -> Files.exists(Paths.get(p)))
-                    .toList();
-            paths.forEach(path -> {
-                directories.add(new Directory(path));
-                logger.info("Added " + path + " to directories.");
-            });
-        }
+    private void addDirectories(String configPath) {
+        List<Path> configFiles = getConfigFiles(configPath);
+        configFiles.forEach(c -> {
+            Properties properties = loadProperties(c.toString());
+            directories.add(new Directory(properties));
+            logger.info("Added " + properties.getProperty("alias") + "to directories");
+        });
+
 
         this.directories.forEach(d -> {
             String certificatePrefix = d.getCertificatePrefix();
-            this.as4DkcClient.addCertificate(certificatePrefix);
+            this.as4DkcClient.addCertificate(d.getProperties());
             logger.info("Added certificate " + certificatePrefix + " to " + d.getBaseDirectory());
         });
+    }
+
+    public static List<Path> getConfigFiles(String directoryPath) {
+        List<Path> configFiles = new ArrayList<>();
+
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(directoryPath), "*.{config}")) {
+            for (Path path : directoryStream) {
+                configFiles.add(path);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return configFiles;
+    }
+
+    public static Properties loadProperties(String filePath) {
+        Properties properties = new Properties();
+        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            properties.load(fileInputStream);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return properties;
     }
 
     @Scheduled(fixedDelay = 10000)
