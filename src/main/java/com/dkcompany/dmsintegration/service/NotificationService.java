@@ -18,6 +18,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 @Component
@@ -42,11 +43,11 @@ public class NotificationService {
         }
     }
 
-    public List<As4ClientResponseDto> pullNotifications(String certificatePrefix) {
+    public List<As4ClientResponseDto> pullNotifications(Properties properties) {
         List<As4ClientResponseDto> dtos = new ArrayList<>();
 
         while (true) {
-            As4ClientResponseDto dto = as4DkcClient.pullNotifications(certificatePrefix);
+            As4ClientResponseDto dto = as4DkcClient.pullNotifications(properties);
             dtos.add(dto);
 
             if (dto.getReftoOriginalID() == null) {
@@ -86,7 +87,7 @@ public class NotificationService {
         String nowFormatted = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         System.out.printf("Pulling notifications for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
 
-        List<As4ClientResponseDto> dtos = pullNotifications(directory.getCertificatePrefix());
+        List<As4ClientResponseDto> dtos = pullNotifications(directory.getProperties());
         return new Pair<Directory, List<As4ClientResponseDto>>(
                 directory,
                 dtos

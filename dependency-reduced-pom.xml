@@ -10,7 +10,7 @@
   <groupId>com.dkcompany</groupId>
   <artifactId>dmsintegration</artifactId>
   <name>dmsintegration</name>
-  <version>0.0.7</version>
+  <version>0.0.1</version>
   <description>Integration between ERP system and DMS</description>
   <build>
     <plugins>

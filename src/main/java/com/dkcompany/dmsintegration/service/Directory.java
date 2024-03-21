@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 
 public class Directory {
     @Getter
@@ -24,15 +25,16 @@ public class Directory {
     private final File errorDirectory;
     @Getter
     private final String certificatePrefix;
-    private final File certificateConfigFile;
+    @Getter
+    private final Properties properties;
 
-    public Directory(String baseDirectoryString) {
-        baseDirectory = new File(baseDirectoryString);
+    public Directory(Properties _properties) {
+        baseDirectory = new File(_properties.getProperty("directoryPath"));
         outDirectory = new File(baseDirectory, "out");
         inDirectory = new File(baseDirectory, "in");
         successDirectory = new File(baseDirectory, "success");
         errorDirectory = new File(baseDirectory, "error");
-        certificateConfigFile = new File(baseDirectory, "certificate.config");
+        properties = _properties;
 
         if (!baseDirectory.exists()) baseDirectory.mkdirs();
         if (!outDirectory.exists()) outDirectory.mkdir();
@@ -40,28 +42,7 @@ public class Directory {
         if (!successDirectory.exists()) successDirectory.mkdir();
         if (!errorDirectory.exists()) errorDirectory.mkdir();
 
-        if (!certificateConfigFile.exists()) {
-            throw new RuntimeException("certificate.config was not found in " + baseDirectoryString);
-        }
-
-        this.certificatePrefix = getCertificatePrefixFromConfigFile();
-    }
-
-    /**
-     * Expects a file called certificate.config in the root of the
-     * base directory. Reads the first line of the file and returns
-     * the value.
-     * @return value of the certificate prefix
-     */
-    private String getCertificatePrefixFromConfigFile() {
-        try (BufferedReader reader = Files.newReader(certificateConfigFile, StandardCharsets.UTF_8)) {
-            String firstLine = reader.readLine();
-            Objects.requireNonNull(firstLine, "Could not set certificate prefix for: " + baseDirectory);
-
-            return firstLine;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.certificatePrefix = properties.getProperty("certificatePrefix");
     }
 
     public void moveToSuccess(File file) {

@@ -38,8 +38,8 @@ public class As4DkcClient {
         }
     }
 
-    public void addCertificate(String certificatePrefix) {
-        this.clients.put(certificatePrefix, createAs4Client(certificatePrefix));
+    public void addCertificate(Properties properties) {
+        this.clients.put(properties.getProperty("certificatePrefix"), createAs4Client(properties));
     }
 
     private As4Client getClientFromCertificatePrefix(String certificatePrefix) {
@@ -92,22 +92,8 @@ public class As4DkcClient {
         );
     }
 
-    public As4ClientResponseDto pullNotifications(String certificatePrefix) {
-        As4Client client = getClientFromCertificatePrefix(certificatePrefix);
-
-        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
-        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
-        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
-        System.out.println(basePath + "/" + rootPackagePath);
-
-        File propertiesConfigFile = new File(basePath + "/" + rootPackagePath, "properties.config");
-
-        Properties properties = new Properties();
-        try (InputStream inputStream = new FileInputStream(propertiesConfigFile)) {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace(); // Handle error
-        }
+    public As4ClientResponseDto pullNotifications(Properties properties) {
+        As4Client client = getClientFromCertificatePrefix(properties.getProperty("certificatePrefix"));
 
         String notificationQueueURL = properties.getProperty("notificationQueueURL");
 
@@ -118,25 +104,7 @@ public class As4DkcClient {
         }
     }
 
-    private As4Client createAs4Client(String certificatePrefix) {
-        if (certificatePrefix == null) {
-            certificatePrefix = "oces3";
-        }
-
-        String rootPackageName = Application.class.getPackageName(); // get the package name of the project
-        String rootPackagePath = rootPackageName.replace(".", "/"); // change to directory format
-        String basePath = Paths.get(".").toAbsolutePath().normalize().toString(); // get the absolute path
-        System.out.println(basePath + "/" + rootPackagePath);
-
-        File propertiesConfigFile = new File(basePath + "/" + rootPackagePath, "properties.config");
-
-        Properties properties = new Properties();
-        try (InputStream inputStream = new FileInputStream(propertiesConfigFile)) {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace(); // Handle error
-        }
-
+    private As4Client createAs4Client(Properties properties) {
         var cryptoProperties = new CryptoProperties(
                 properties.getProperty("file"),
                 properties.getProperty("password"),
