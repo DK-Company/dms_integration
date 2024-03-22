@@ -1,5 +1,8 @@
 # Guide for using the client
 
+<img width="662" alt="DMS_Integration documentation" src="https://github.com/DK-Company-A-S/dms_integration/assets/80399524/fcbf0034-6098-4cd4-8468-46c38bbc4fa9">
+
+
 ## Application.properties
 In the application.properties, a field should be added called configPath. This will contain the path to a folder containing a .config file for each wished instance of the client.  
 If nothing is declared in the inner application.properties, another application.properties can be created to overwrite it in the root folder.  
