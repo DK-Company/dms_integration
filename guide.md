@@ -7,22 +7,22 @@ Using a packaged .jar file, the application.properties can be added ot the same 
 For this program it is necessary to add the application.properties file as the configPath field is required to run properly.  
 
 The application.properties should contain these fields:  
-`as4Endpoint` (the DMS endpoint the user wishes to hit fx. (https://secureftpgatewaytest.skat.dk:6384))  
-`configPath` (path to the congfigs folder)  
+- `as4Endpoint` (the DMS endpoint the user wishes to hit fx. (https://secureftpgatewaytest.skat.dk:6384))  
+- `configPath` (path to the congfigs folder)  
 
 ## Adding the config files
 in the configs folder that should be found on the path referenced in the application.properties under the field configPath, .config files should be added.  
 The .config file will contain the following information:  
 
-`certificatePrefix` (unique name used to differentiate between clients internally in the program)  
-`file` (path to the directory containing the certificate file)  
-`password` (the password to access the certificate)  
-`type` (the type of certificate used (fx PKCS12))  
-`alias` (the alias used to initially create the certificate)  
-`privatePassword` (if certificate type supports multiple passwords, this contains the private password. If there is only password, this is usually the same as password)  
-`gatewayPassword` (the gateway password, which can be retrieved from DMS by registraring the certificate and acessing their toolkit)  
-`notificationQueueURL` (the URL to the notification queue inside the DMS system. the endpoint looks like this: urn:fdc:dk.skat.mft.DMS/response/CVR_{CVR_NUMBER})  
-`directoryPath` (path to the directory where the user wants the directories (in, out, success, error) to be created)  
+- `certificatePrefix` (unique name used to differentiate between clients internally in the program)  
+- `file` (path to the directory containing the certificate file)  
+- `password` (the password to access the certificate)  
+- `type` (the type of certificate used (fx PKCS12))  
+- `alias` (the alias used to initially create the certificate)  
+- `privatePassword` (if certificate type supports multiple passwords, this contains the private password. If there is only password, this is usually the same as password)  
+- `gatewayPassword` (the gateway password, which can be retrieved from DMS by registraring the certificate and acessing their toolkit)  
+- `notificationQueueURL` (the URL to the notification queue inside the DMS system. the endpoint looks like this: urn:fdc:dk.skat.mft.DMS/response/CVR_{CVR_NUMBER})  
+- `directoryPath` (path to the directory where the user wants the directories (in, out, success, error) to be created)  
 
 The config files will be read dynamically, so a client in setup for eat config file inside the configs folder. If a new config is added for a new CVR number, setting these fields will automatically setup a new client for the new CVR number the next time the program is restarted.  
 
