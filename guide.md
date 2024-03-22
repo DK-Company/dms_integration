@@ -1,21 +1,41 @@
 # Guide for using the client
 
-## Adding directories
-Directories can be added for files to be picked up.
+## Application.properties
+In the application.properties, a field should be added called configPath. This will contain the path to a folder containing a .config file for each wished instance of the client.
+If nothing is declared in the inner application.properties, another application.properties can be created to overwrite it in the root folder.
+Using a packaged .jar file, the application.properties can be added ot the same directory as the .jar file, and it will be automatically applied.
+For this program it is necessary to add the application.properties file as the configPath field is required to run properly.
 
-A directory must follow this structure:
+The application.properties should contain these fields:
+as4Endpoint (the DMS endpoint the user wishes to hit fx. (https://secureftpgatewaytest.skat.dk:6384))
+configPath (path to the congfigs folder)
+
+## Adding the config files
+in the configs folder that should be found on the path referenced in the application.properties under the field configPath, .config files should be added.
+The .config file will contain the following information:
+
+certificatePrefix (unique name used to differentiate between clients internally in the program)
+file (path to the directory containing the certificate file)
+password (the password to access the certificate)
+type (the type of certificate used (fx PKCS12))
+alias (the alias used to initially create the certificate)
+privatePassword (if certificate type supports multiple passwords, this contains the private password. If there is only password, this is usually the same as password)
+gatewayPassword (the gateway password, which can be retrieved from DMS by registraring the certificate and acessing their toolkit)
+notificationQueueURL (the URL to the notification queue inside the DMS system. the endpoint looks like this: urn:fdc:dk.skat.mft.DMS/response/CVR_{CVR_NUMBER})
+directoryPath (path to the directory where the user wants the directories (in, out, success, error) to be created)
+
+The config files will be read dynamically, so a client in setup for eat config file inside the configs folder. If a new config is added for a new CVR number, setting these fields will automatically setup a new client for the new CVR number the next time the program is restarted.
+
+## in/out/success/error directories
+When the program starts it will create 4 directories. 
+
 ```
-├── base directory
+├── base directory (defined by directoryPath in .config file)
 │   ├── error
 │   ├── out
 │   ├── in
 │   ├── success
-│   ├── certificate.config
 ```
-
-The `certificate.config` must contain a single line with the value of the certificate prefix used for this directory.
-
-The certificate prefix is used to retrieve the certificate credentials from environment variables.
 
 ## Files to be picked up
 Files that should be sent to DMS must follow a naming convention to be picked up by the tool.
@@ -25,34 +45,9 @@ Files that should be sent to DMS must follow a naming convention to be picked up
 ```
 
 - `ProcedureType`: the type of the declaration, e.g. _B1_, _H7_, etc.
-- `DmsService`: values can be either _dms.export2_ or _dms.import2_
+- `DmsService`: values can be either _dms.export_ or _dms.import_
 - `any string`: the last part of the filename can contain information such as a timestamp, etc.
 
 `ProcedureType`, `DmsService` and the arbitrary string must be separated by underscores (`_`).
 
 Files must have the `.xml` extension.
-
-## Certificate
-The OCES3 certificate must be located on the computer running the tool.
-
-Take note of the location of the certificate - the absolute path of the file must be used as the value of the `<certificate prefix>.file` environment variable.
-
-## Environment variables
-The following environment variables must be set:
-- `<certificate prefix>.file`
-- `<certificate prefix>.password`
-- `<certificate prefix>.type`
-- `<certificate prefix>.alias`
-- `<certificate prefix>.privatePassword`
-
-## The application.properties file
-When running the jar, a file named `application.properties` must be placed in the same directory of the jar.
-
-This file contains the configuration of the program:
-```properties
-directoryPaths=C:\\Path\\To\\Directory1;C:\\Path\\To\\Directory2
-as4Endpoint=https://secureftpgatewaytest.skat.dk:6384
-```
-
-- `directoryPaths`: list of directories where files are picked up from. Separated by semicolons.
-- `as4Endpoint`: the endpoint used for communication with DMS. Used to switch between test and prod.
