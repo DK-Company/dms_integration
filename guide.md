@@ -2,8 +2,10 @@
 
 <img width="662" alt="DMS_Integration documentation" src="https://github.com/DK-Company-A-S/dms_integration/assets/80399524/fcbf0034-6098-4cd4-8468-46c38bbc4fa9">
 
-
 ## Application.properties
+
+<img width="325" alt="jar root" src="https://github.com/DK-Company-A-S/dms_integration/assets/80399524/7f270184-78a8-4241-83c7-b3ecd462f590">
+
 In the application.properties, a field should be added called configPath. This will contain the path to a folder containing a .config file for each wished instance of the client.  
 If nothing is declared in the inner application.properties, another application.properties can be created to overwrite it in the root folder.  
 Using a packaged .jar file, the application.properties can be added ot the same directory as the .jar file, and it will be automatically applied.  
@@ -11,7 +13,9 @@ For this program it is necessary to add the application.properties file as the c
 
 The application.properties should contain these fields:  
 - `as4Endpoint` (the DMS endpoint the user wishes to hit fx. (https://secureftpgatewaytest.skat.dk:6384))  
-- `configPath` (path to the congfigs folder)  
+- `configPath` (path to the congfigs folder)
+
+<img width="275" alt="configs" src="https://github.com/DK-Company-A-S/dms_integration/assets/80399524/5553a0c0-d6d3-49d5-8edb-a6708b108bf9">
 
 ## Adding the config files
 in the configs folder that should be found on the path referenced in the application.properties under the field configPath, .config files should be added.  
@@ -30,6 +34,9 @@ The .config file will contain the following information:
 The config files will be read dynamically, so a client in setup for eat config file inside the configs folder. If a new config is added for a new CVR number, setting these fields will automatically setup a new client for the new CVR number the next time the program is restarted.  
 
 ## in/out/success/error directories
+
+<img width="471" alt="root directory" src="https://github.com/DK-Company-A-S/dms_integration/assets/80399524/b840341c-8699-4206-98ab-72d54779b3c2">
+
 When the program starts it will create 4 directories.  
 
 ```
