@@ -7,8 +7,8 @@ Prerequisites:
 - VOCES certificate
 
 ## Using the tool
-A guide to using the tool can be found [here](usage_guide).
-A quickstart guide to using the tool can be found [here](quickstart_guide).
+A guide to using the tool can be found [here](usage_guide).  
+A quickstart guide to using the tool can be found [here](quickstart_guide).  
 A guide to setting up a development enviroment and packaging a .jar of the tool can be found [here](development_guide).
 
 ## The Simple-as4-Client package
