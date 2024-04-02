@@ -1,5 +1,6 @@
 package com.dkcompany.dmsintegration.service;
 
+import com.dkcompany.dmsintegration.enums.DeclarationAction;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.Document;
@@ -92,7 +93,8 @@ public class Directory {
                     return new Document(
                             f,
                             getProcedureTypeFromFile(f),
-                            getDmsServiceFromFile(f)
+                            getDmsServiceFromFile(f),
+                            getDeclarationActionFromFile(f)
                     );
                 })
                 .toList();
@@ -108,5 +110,18 @@ public class Directory {
         String fileName = file.getName();
         String prefix = fileName.split("_")[1];
         return DmsService.findByValue(prefix);
+    }
+
+    private static DeclarationAction getDeclarationActionFromFile(File file) {
+        String fileName = file.getName();
+        String prefix = fileName.split("_")[2];
+        if (DeclarationAction.findByValue(prefix) != null) {
+            return DeclarationAction.findByValue(prefix);
+        }
+        else {
+            return DeclarationAction.findByValue("Submit");
+        }
+
+
     }
 }

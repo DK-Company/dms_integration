@@ -1,6 +1,7 @@
 package com.dkcompany.dmsintegration.service;
 
 import com.dkcompany.dmsintegration.Application;
+import com.dkcompany.dmsintegration.enums.DeclarationAction;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.Document;
@@ -134,6 +135,7 @@ public class FileService {
             File file = document.file();
             ProcedureType procedureType = document.procedureType();
             DmsService dmsService = document.dmsService();
+            DeclarationAction declarationAction = document.declarationAction();
 
             logger.info("Uploading file: " + file.getAbsolutePath());
 
@@ -142,6 +144,7 @@ public class FileService {
                         file.getAbsolutePath(),
                         procedureType,
                         dmsService,
+                        declarationAction,
                         certificatePrefix
                 );
 

@@ -1,6 +1,7 @@
 package com.dkcompany.dmsintegration.util;
 
 import com.dkcompany.dmsintegration.Application;
+import com.dkcompany.dmsintegration.enums.DeclarationAction;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.CryptoProperties;
@@ -53,6 +54,7 @@ public class As4DkcClient {
             String filePath,
             ProcedureType procedureType,
             DmsService dmsService,
+            DeclarationAction declarationAction,
             String certificatePrefix
     ) throws AS4Exception {
         Path path = Paths.get(filePath);
@@ -67,7 +69,7 @@ public class As4DkcClient {
 
         return client.executePush(
                 dmsService.value,
-                "Declaration.Submit",
+                "Declaration." + declarationAction.value,
                 declarationBytes,
                 Map.of("procedureType", procedureType.value)
         );
