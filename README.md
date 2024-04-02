@@ -2,16 +2,15 @@
 
 ## Development environment
 Prerequisites:
-- Java 17 JDK
+- Java 21 JDK
 - Maven
 - VOCES certificate
 
 ## Using the tool
-A guide to using the tool can be found [here](guide.md).
+A guide to using the tool can be found [here](usage_guide.md).  
+A quickstart guide to using the tool can be found [here](quickstart_guide.md).  
+A guide to setting up a development enviroment and packaging a .jar of the tool can be found [here](development_guide.md).
 
 ## The Simple-as4-Client package
-A custom version of the Simple-as4-client has been compiled and the jar is found at: `packages/io/github/skat/as4-client/2.2.0-local/as4-client-2.2.0-local.jar`.
-
-This version of as4-client has been modified so that OCES3 certificates can be used.
-
-This jar must be added as a maven dependency.
+This tool uses the Simple-as4-client current newest version (3.0.0).  
+It packages the project as a fat jar to ensure that the right version of all dependencies are used.
