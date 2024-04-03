@@ -166,6 +166,7 @@ public class As4DkcClient {
                     .setPassword(gatewayPassword)
                     .build();
         } catch (AS4Exception e) {
+            logger.error("Error happened when trying to create As4ClientBuilderInstance. inner exception: " + e.getMessage());
             throw new RuntimeException(e);
         } finally {
             cryptoPropertiesFile.delete();

@@ -54,7 +54,7 @@ public class Directory {
             FileUtils.copyFileToDirectory(file, successDirectory);
             file.delete();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Error happened when trying to move file to Success folder. Inner exception: " + e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class Directory {
 
             file.delete();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Error happened when trying to move file to Error folder. Inner exception: " + e.getMessage());
         }
     }
 
