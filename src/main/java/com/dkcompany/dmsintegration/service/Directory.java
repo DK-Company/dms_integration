@@ -8,6 +8,8 @@ import com.google.common.io.Files;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +30,7 @@ public class Directory {
     private final String certificatePrefix;
     @Getter
     private final Properties properties;
+    private static final Logger logger = LoggerFactory.getLogger(Directory.class);
 
     public Directory(Properties _properties) {
         baseDirectory = new File(_properties.getProperty("directoryPath"));
@@ -89,6 +92,7 @@ public class Directory {
                 .filter(f -> FilenameUtils.getExtension(f.toString()).equalsIgnoreCase("xml"))
                 .filter(f -> getProcedureTypeFromFile(f) != null)
                 .filter(f -> getDmsServiceFromFile(f) != null)
+                .filter(f -> getDeclarationActionFromFile(f) != null)
                 .map(f -> {
                     return new Document(
                             f,
@@ -103,25 +107,45 @@ public class Directory {
     private static ProcedureType getProcedureTypeFromFile(File file) {
         String fileName = file.getName();
         String prefix = fileName.split("_")[0];
-        return ProcedureType.findByValue(prefix);
+        ProcedureType procedureType = ProcedureType.findByValue(prefix);
+        try {
+            if (procedureType == null) {
+                throw new Exception("Invalid Procedure Type");
+            }
+            return procedureType;
+        } catch (Exception e){
+            logger.error("Directory creation failed with the error: " + e.getMessage());
+            return null;
+        }
     }
 
     private static DmsService getDmsServiceFromFile(File file) {
         String fileName = file.getName();
         String prefix = fileName.split("_")[1];
-        return DmsService.findByValue(prefix);
+        DmsService service = DmsService.findByValue(prefix);
+        try {
+            if (service == null) {
+                throw new Exception("Invalid Dms Service");
+            }
+            return service;
+        } catch (Exception e){
+            logger.error("Directory creation failed with the error: " + e.getMessage());
+            return null;
+        }
     }
 
     private static DeclarationAction getDeclarationActionFromFile(File file) {
         String fileName = file.getName();
         String prefix = fileName.split("_")[2];
-        if (DeclarationAction.findByValue(prefix) != null) {
-            return DeclarationAction.findByValue(prefix);
+        DeclarationAction action = DeclarationAction.findByValue(prefix);
+        try {
+            if (action == null) {
+                throw new Exception("Invalid Declaration Action");
+            }
+            return action;
+        } catch (Exception e){
+            logger.error("Directory creation failed with the error: " + e.getMessage());
+            return null;
         }
-        else {
-            return DeclarationAction.findByValue("Submit");
-        }
-
-
     }
 }
