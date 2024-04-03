@@ -158,7 +158,7 @@ public class FileService {
                     directory.moveToError(file, attachment);
                 }
             } catch (AS4Exception e) {
-                throw new RuntimeException(e);
+                logger.error("Error happened when submitting declaration: " + e);
             }
         });
     }

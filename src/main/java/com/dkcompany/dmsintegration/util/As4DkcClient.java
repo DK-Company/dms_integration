@@ -5,10 +5,13 @@ import com.dkcompany.dmsintegration.enums.DeclarationAction;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.CryptoProperties;
+import com.dkcompany.dmsintegration.service.FileService;
 import dk.toldst.eutk.as4client.As4Client;
 import dk.toldst.eutk.as4client.As4ClientResponseDto;
 import dk.toldst.eutk.as4client.builder.support.As4ClientBuilderInstance;
 import dk.toldst.eutk.as4client.exceptions.AS4Exception;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +32,7 @@ import java.util.Properties;
 public class As4DkcClient {
     private final Map<String, As4Client> clients;
     private final String as4Endpoint;
+    private static final Logger logger = LoggerFactory.getLogger(As4DkcClient.class);
 
     public As4DkcClient(@Value("${as4Endpoint:null}") String as4Endpoint) {
         this.clients = new HashMap<>();
@@ -124,6 +128,36 @@ public class As4DkcClient {
 
         String cryptoPath = cryptoPropertiesFile.getAbsolutePath();
         String gatewayPassword = properties.getProperty("gatewayPassword");
+
+        try {
+            if (properties.getProperty("file") == null)
+            {
+                throw new Exception("file has not been set in .config file");
+            }
+            if (properties.getProperty("password") == null)
+            {
+                throw new Exception("password has not been set in .config file");
+            }
+            if (properties.getProperty("type") == null)
+            {
+                throw new Exception("type has not been set in .config file");
+            }
+            if (properties.getProperty("alias") == null)
+            {
+                throw new Exception("alias has not been set in .config file");
+            }
+            if (properties.getProperty("privatePassword") == null)
+            {
+                throw new Exception("privatePassword has not been set in .config file");
+            }
+            if (properties.getProperty("gatewayPassword") == null)
+            {
+                throw new Exception("gatewayPassword has not been set in .config file");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
         try {
             return new As4ClientBuilderInstance()
                     .builder()
