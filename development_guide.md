@@ -9,6 +9,9 @@ When the IDE is installed, open the folder containing the source code inside Int
 Now IntelliJ might ask to install a JDK if there is no JDK present on the machine. Allow IntelliJ to download the newest JDk available.  
 After this step you should be able to start running the application - however the application will fail since no path to configs has been defined yet.  
 
+The tool uses lombok inside the spring boot application. When opening in a developent enviroment, you will need to install the lombok plugin.
+To install Lombok, go to settings -> plugin and under marketplace make sure that the Lombok plugin is installed. After installation the IDE will need a restart.
+
 under src/main/resources you will find the application.properties file. This file should contain the configpath, which tells the program where to find the config files that needs to be set up (check the usage guide for more details)  
 
 <img width="396" alt="image" src="https://github.com/DK-Company-A-S/dms_integration/assets/80399524/444637ac-49a2-4970-92e5-c0a28aa1974d">

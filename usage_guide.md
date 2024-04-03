@@ -51,13 +51,14 @@ When the program starts it will create 4 directories.
 Files that should be sent to DMS must follow a naming convention to be picked up by the tool.
 
 ```
-<ProcedureType>_<DmsService>_<any string>.xml
+<ProcedureType>_<DmsService>_<DeclarationAction>_<any string>.xml
 ```
 
 - `ProcedureType`: the type of the declaration, e.g. _B1_, _H7_, etc.
 - `DmsService`: values can be either _dms.export_ or _dms.import_
+- `DeclarationAction`: The type of action e.g. _Submit_, _invalidate_ etc.
 - `any string`: the last part of the filename can contain information such as a timestamp, etc.
 
-`ProcedureType`, `DmsService` and the arbitrary string must be separated by underscores (`_`).
+`ProcedureType`, `DmsService`, `DeclarationAction` and the arbitrary string must be separated by underscores (`_`).
 
 Files must have the `.xml` extension.
