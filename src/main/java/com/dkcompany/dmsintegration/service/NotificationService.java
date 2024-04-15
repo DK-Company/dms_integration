@@ -34,12 +34,12 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    public void requestNotifications(String certificatePrefix) {
+    public void requestNotifications(Properties properties){  //DKC/001 String certificatePrefix) {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-        if (hasNoUnrequestedNotifications(now, certificatePrefix)) {
-            requestOldNotifications(now, certificatePrefix);
+        if (hasNoUnrequestedNotifications(now, properties)) { //DKC/001certificatePrefix)) {
+            requestOldNotifications(now, properties);//DKC/001 certificatePrefix);
         } else {
-            requestRecentNotifications(now, certificatePrefix);
+            requestRecentNotifications(now, properties); //DKC/001 certificatePrefix);
         }
     }
 
@@ -54,7 +54,6 @@ public class NotificationService {
                 break;
             }
         }
-
         return dtos;
     }
 
@@ -74,11 +73,10 @@ public class NotificationService {
     }
 
     public Void pushNotificationRequests(Directory directory) {
-        String certificatePrefix = directory.getCertificatePrefix();
         String nowFormatted = LocalDateTime.now().plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         System.out.printf("Pushing notification request for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
 
-        requestNotifications(certificatePrefix);
+        requestNotifications(directory.getProperties()); //DKC/001 certificatePrefix);
 
         return null;
     }
@@ -116,11 +114,11 @@ public class NotificationService {
         return notifications;
     }
 
-    private void requestRecentNotifications(LocalDateTime now, String certificatePrefix) {
+    private void requestRecentNotifications(LocalDateTime now, Properties properties) { // DKC/001String certificatePrefix) {
         LocalDateTime then = now.minusMinutes(7);
-
+        String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
         try {
-            as4DkcClient.pushNotificationRequest(then, now, certificatePrefix);
+            as4DkcClient.pushNotificationRequest(then, now, properties);//DKC/001 certificatePrefix);
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
@@ -128,7 +126,8 @@ public class NotificationService {
         saveNotificationToRepository(now, certificatePrefix);
     }
 
-    private boolean hasNoUnrequestedNotifications(LocalDateTime now, String certificatePrefix) {
+    private boolean hasNoUnrequestedNotifications(LocalDateTime now, Properties properties) { //DKC/001 String certificatePrefix) {
+        String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
         LocalDateTime latestNotificationTimestamp = getLatestNotificationTimestamp(certificatePrefix);
         if (latestNotificationTimestamp == null) {
             return true;
@@ -136,13 +135,14 @@ public class NotificationService {
         return !latestNotificationTimestamp.isAfter(now.minusMinutes(5));
     }
 
-    private void requestOldNotifications(LocalDateTime now, String certificatePrefix) {
-        if (hasNoUnrequestedNotifications(now, certificatePrefix)) {
-            requestRecentNotifications(now, certificatePrefix);
+    private void requestOldNotifications(LocalDateTime now, Properties properties) { //DKC/001 String certificatePrefix) {
+        String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
+        if (hasNoUnrequestedNotifications(now, properties)) { //DKC/001certificatePrefix)) {
+            requestRecentNotifications(now, properties); //DKC/001 certificatePrefix);
         } else {
             LocalDateTime latestNotificationTimestamp = getLatestNotificationTimestamp(certificatePrefix);
             try {
-                as4DkcClient.pushNotificationRequest(latestNotificationTimestamp, now, certificatePrefix);
+                as4DkcClient.pushNotificationRequest(latestNotificationTimestamp, now, properties);//DKC/001 certificatePrefix);
             } catch (AS4Exception e) {
                 throw new RuntimeException(e);
             }

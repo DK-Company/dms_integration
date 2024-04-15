@@ -82,16 +82,19 @@ public class As4DkcClient {
     public As4ClientResponseDto pushNotificationRequest(
             LocalDateTime then,
             LocalDateTime now,
-            String certificatePrefix
+            Properties properties //DKC/001 String certificatePrefix
     ) throws AS4Exception {
+        String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
+
+        System.out.println("Sending push-pull request for csv "+properties.getProperty("cvr")); //DKC/001
 
         return client.executePush(
                 "DMS.Export",
                 "Notification",
                 Map.of(
                         "lang", "EN",
-                        "submitterId", "24431118",
+                        "submitterId", properties.getProperty("cvr"), //DKC/001 get cvr from properties "24431118",
                         "dateFrom", then.toString(),
                         "dateTo", now.toString()
                 )
@@ -103,6 +106,7 @@ public class As4DkcClient {
 
         String notificationQueueURL = properties.getProperty("notificationQueueURL");
 
+        System.out.println("Pull notifications for csv "+properties.getProperty("cvr")); //DKC/001
         try {
             return client.executePull(notificationQueueURL); // needs specific
         } catch (AS4Exception e) {
@@ -130,6 +134,10 @@ public class As4DkcClient {
         String gatewayPassword = properties.getProperty("gatewayPassword");
 
         try {
+            if (properties.getProperty("cvr") == null) //DKC/001
+            {
+                throw new Exception("cvr has not been set in .config file");
+            }
             if (properties.getProperty("file") == null)
             {
                 throw new Exception("file has not been set in .config file");

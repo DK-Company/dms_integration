@@ -35,7 +35,9 @@ these are the fields in the .config file:
 - `privatePassword` (if certificate type supports multiple passwords, this contains the private password. If there is only password, this is usually the same as password)  
 - `gatewayPassword` (the gateway password, which can be retrieved from DMS by registraring the certificate and acessing their toolkit)  
 - `notificationQueueURL` (the URL to the notification queue inside the DMS system. the endpoint looks like this: urn:fdc:dk.skat.mft.DMS/response/CVR_{CVR_NUMBER})  
-- `directoryPath` (path to the directory where the user wants the directories (in, out, success, error) to be created)  
+- `directoryPath` (path to the directory where the user wants the directories (in, out, success, error) to be created) 
+- `cvr` company CRV number
+
 
 these fields needs to be filled with the appropriate values for the client to be set up. 
 
