@@ -3,23 +3,22 @@ package com.dkcompany.dmsintegration.service;
 import com.dkcompany.dmsintegration.util.As4DkcClient;
 import com.dkcompany.dmsintegration.entity.Notification;
 import com.dkcompany.dmsintegration.repository.NotificationRepository;
-import dk.toldst.eutk.as4client.As4ClientResponseDto;
-import dk.toldst.eutk.as4client.exceptions.AS4Exception;
+
+import com.dkcompany.dmsintegration.as4client.As4ClientResponseDto;
+import com.dkcompany.dmsintegration.as4client.AS4Exception;
+
 import org.javatuples.Pair;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
+
 
 @Component
 public class NotificationService {
@@ -34,15 +33,28 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    public void requestNotifications(Properties properties){  //DKC/001 String certificatePrefix) {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-        if (hasNoUnrequestedNotifications(now, properties)) { //DKC/001certificatePrefix)) {
-            requestOldNotifications(now, properties);//DKC/001 certificatePrefix);
-        } else {
-            requestRecentNotifications(now, properties); //DKC/001 certificatePrefix);
+    public As4ClientResponseDto sendRequest(
+            String serviceEndpointTxt,   // ex "DMS.Export"
+            String serviceTypeTxt,       // ex "Notification",
+            Map<String, String> serviceAttributes, // Attributes to be passed to the service
+            String messageId,           // Id for the message
+            Properties properties){
+        try {
+
+            return as4DkcClient.pushRequest(serviceEndpointTxt,serviceTypeTxt,serviceAttributes,messageId,properties);
+        } catch (AS4Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
+
+    // Request new notifications to notification-queue
+    public void requestNotifications(Properties properties){
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        requestRecentNotifications(now, properties);
+    }
+
+    // Pull notifications from notification-queue
     public List<As4ClientResponseDto> pullNotifications(Properties properties) {
         List<As4ClientResponseDto> dtos = new ArrayList<>();
 
@@ -50,15 +62,18 @@ public class NotificationService {
             As4ClientResponseDto dto = as4DkcClient.pullNotifications(properties);
             dtos.add(dto);
 
-            if (dto.getReftoOriginalID() == null) {
+            if (dto.getRefToOriginalID() == null) {
                 break;
             }
         }
         return dtos;
     }
 
+    // Save notifications to notifications.txt log file
     public void saveNotifications(Pair<Directory, List<As4ClientResponseDto>> tuple) {
         Directory directory = tuple.getValue0();
+
+        // Extract notification
         StringBuilder notifications = getStringBuilder(tuple);
 
         System.out.println(notifications);
@@ -76,13 +91,14 @@ public class NotificationService {
         String nowFormatted = LocalDateTime.now().plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         System.out.printf("Pushing notification request for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
 
-        requestNotifications(directory.getProperties()); //DKC/001 certificatePrefix);
+        requestNotifications(directory.getProperties());
 
         return null;
     }
 
     public Pair<Directory, List<As4ClientResponseDto>> pullNotifications(Directory directory) {
         String nowFormatted = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
         System.out.printf("Pulling notifications for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
 
         List<As4ClientResponseDto> dtos = pullNotifications(directory.getProperties());
@@ -92,18 +108,47 @@ public class NotificationService {
         );
     }
 
+    // Extract the notification from the CTO message
     private static StringBuilder getStringBuilder(Pair<Directory, List<As4ClientResponseDto>> tuple) {
-        List<As4ClientResponseDto> dtos = tuple.getValue1();
+        List<As4ClientResponseDto> dtoList = tuple.getValue1();
 
         StringBuilder notifications = new StringBuilder();
 
-        dtos.forEach(dto -> {
+        dtoList.forEach(dto -> {
             String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             String firstAttachment = dto.getFirstAttachment();
-            if (firstAttachment == null) {
-                firstAttachment = "Empty.";
-            }
+            if (firstAttachment == null) {firstAttachment = "Empty.";}
+            //DKC/002/START
+            else {
+                // Ignore TotalSize=0 responses
+                if (!firstAttachment.contains("<TotalSize>0</TotalSize>")) {
+                    // Write attachment to notification-file
+                    Directory directory = tuple.getValue0();
+                    String filename = dto.getRefToOriginalID() ;
+                    if (firstAttachment.startsWith("%PDF-")) filename += ".pdf";
+                    else if (firstAttachment.startsWith("<?xml version=")) filename += ".xml";
+                        else filename += ".notification";
 
+                    // Check if the filename is free
+                    File file = new File(filename);
+                    if(file.exists()) filename+=UUID.randomUUID().toString();
+
+                    Path fileLocationPath = Paths.get(directory.getInDirectory().getAbsolutePath(), filename);
+                    String fileLocation = fileLocationPath.toString();
+
+                    // Save bytestream
+                    try {
+                        Files.write(Paths.get(fileLocation), dto.getFirstAttachmentBytes());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    // Replace firstAttachment with "filename" in the notification-text file
+                    // Todo: Dette skal gøres ved alle filer, da vi ikke vil have xml data og andet i notifikationsloggen
+                    if (firstAttachment.startsWith("%PDF-")) firstAttachment=filename;
+                }
+            }
+            //DKC/002/STOP
             notifications.append("[NOTIFICATION ");
             notifications.append(time);
             notifications.append(']');
@@ -114,42 +159,27 @@ public class NotificationService {
         return notifications;
     }
 
-    private void requestRecentNotifications(LocalDateTime now, Properties properties) { // DKC/001String certificatePrefix) {
+    private void requestRecentNotifications(LocalDateTime now, Properties properties) {
         LocalDateTime then = now.minusMinutes(7);
-        String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
+        String certificatePrefix = properties.getProperty("certificatePrefix");
         try {
-            as4DkcClient.pushNotificationRequest(then, now, properties);//DKC/001 certificatePrefix);
+            as4DkcClient.pushNotificationRequest(then, now, properties);
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
-
         saveNotificationToRepository(now, certificatePrefix);
     }
 
-    private boolean hasNoUnrequestedNotifications(LocalDateTime now, Properties properties) { //DKC/001 String certificatePrefix) {
-        String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
+    /*
+    private boolean hasNoUnrequestedNotifications(LocalDateTime now, Properties properties) {
+        String certificatePrefix = properties.getProperty("certificatePrefix");
         LocalDateTime latestNotificationTimestamp = getLatestNotificationTimestamp(certificatePrefix);
         if (latestNotificationTimestamp == null) {
             return true;
         }
         return !latestNotificationTimestamp.isAfter(now.minusMinutes(5));
     }
-
-    private void requestOldNotifications(LocalDateTime now, Properties properties) { //DKC/001 String certificatePrefix) {
-        String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
-        if (hasNoUnrequestedNotifications(now, properties)) { //DKC/001certificatePrefix)) {
-            requestRecentNotifications(now, properties); //DKC/001 certificatePrefix);
-        } else {
-            LocalDateTime latestNotificationTimestamp = getLatestNotificationTimestamp(certificatePrefix);
-            try {
-                as4DkcClient.pushNotificationRequest(latestNotificationTimestamp, now, properties);//DKC/001 certificatePrefix);
-            } catch (AS4Exception e) {
-                throw new RuntimeException(e);
-            }
-
-            saveNotificationToRepository(now, certificatePrefix);
-        }
-    }
+     */
 
     private void saveNotificationToRepository(LocalDateTime now, String certificatePrefix) {
         int offset = new Random().nextInt(2000000) - 1000000;

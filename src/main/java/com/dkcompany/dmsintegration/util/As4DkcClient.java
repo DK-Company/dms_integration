@@ -1,24 +1,20 @@
 package com.dkcompany.dmsintegration.util;
 
-import com.dkcompany.dmsintegration.Application;
+import com.dkcompany.dmsintegration.as4client.AS4Exception;
+import com.dkcompany.dmsintegration.as4client.As4Client;
+import com.dkcompany.dmsintegration.as4client.As4ClientBuilderInstance;
+import com.dkcompany.dmsintegration.as4client.As4ClientResponseDto;
 import com.dkcompany.dmsintegration.enums.DeclarationAction;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.CryptoProperties;
-import com.dkcompany.dmsintegration.service.FileService;
-import dk.toldst.eutk.as4client.As4Client;
-import dk.toldst.eutk.as4client.As4ClientResponseDto;
-import dk.toldst.eutk.as4client.builder.support.As4ClientBuilderInstance;
-import dk.toldst.eutk.as4client.exceptions.AS4Exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,6 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
+
+//DKC/001/010101/TOP Added properties to function calls to support different CVR numbers
+//DKC/002/110724/TOP Added function pushRequest
+//DKC/003/260825/TOP Changed "then"+"now" datetime format because DMS is more picky now
 
 @Component
 public class As4DkcClient {
@@ -59,7 +59,8 @@ public class As4DkcClient {
             ProcedureType procedureType,
             DmsService dmsService,
             DeclarationAction declarationAction,
-            String certificatePrefix
+            String certificatePrefix,
+            String messageId // MessageId to use
     ) throws AS4Exception {
         Path path = Paths.get(filePath);
         byte[] declarationBytes;
@@ -71,13 +72,44 @@ public class As4DkcClient {
 
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
+        /*
         return client.executePush(
                 dmsService.value,
                 "Declaration." + declarationAction.value,
                 declarationBytes,
                 Map.of("procedureType", procedureType.value)
+        */
+        return client.executePush(
+
+                dmsService.value,
+                "Declaration." + declarationAction.value,
+                declarationBytes,
+                Map.of("procedureType", procedureType.value),
+                messageId // MessageId to use
         );
     }
+
+    //DKC/002/START
+    public As4ClientResponseDto pushRequest(
+            String serviceEndpointTxt,   // ex "DMS.Export"
+            String serviceTypeTxt,       // ex "Notification",
+            Map<String, String> serviceAttributes, // Attributes to be passed to the service
+            String messageId, // MessageId to use
+            Properties properties
+    ) throws AS4Exception {
+        // Get connection-prefix for the current connection
+        String certificatePrefix = properties.getProperty("certificatePrefix");
+        As4Client client = getClientFromCertificatePrefix(certificatePrefix);
+
+        // Add standard attributes
+        serviceAttributes.put("lang", "EN");
+        serviceAttributes.put("submitterId", properties.getProperty("cvr"));
+
+        System.out.println("Sending pushRequest for csv "+properties.getProperty("cvr")+" with messageId "+messageId);
+
+        return client.executePush(serviceEndpointTxt,serviceTypeTxt,serviceAttributes,messageId);
+    }
+    //DKC/002/STOP
 
     public As4ClientResponseDto pushNotificationRequest(
             LocalDateTime then,
@@ -95,8 +127,8 @@ public class As4DkcClient {
                 Map.of(
                         "lang", "EN",
                         "submitterId", properties.getProperty("cvr"), //DKC/001 get cvr from properties "24431118",
-                        "dateFrom", then.toString(),
-                        "dateTo", now.toString()
+                        "dateFrom", then.toString().substring(0,19),      //DKC/003 cut length to new format
+                        "dateTo", now.toString().substring(0,19)          //DKC/003 cut length to new format
                 )
         );
     }
@@ -106,9 +138,9 @@ public class As4DkcClient {
 
         String notificationQueueURL = properties.getProperty("notificationQueueURL");
 
-        System.out.println("Pull notifications for csv "+properties.getProperty("cvr")); //DKC/001
+        System.out.println("Pull notifications for csv "+properties.getProperty("cvr"));
         try {
-            return client.executePull(notificationQueueURL); // needs specific
+            return client.executePull(notificationQueueURL); //
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }

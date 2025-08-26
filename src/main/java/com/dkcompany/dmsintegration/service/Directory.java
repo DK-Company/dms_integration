@@ -4,24 +4,25 @@ import com.dkcompany.dmsintegration.enums.DeclarationAction;
 import com.dkcompany.dmsintegration.enums.DmsService;
 import com.dkcompany.dmsintegration.enums.ProcedureType;
 import com.dkcompany.dmsintegration.record.Document;
-import com.google.common.io.Files;
+
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Properties;
+
+//DKC/001 Added support for notificationRequests
 
 public class Directory {
     @Getter
     private final File baseDirectory;
     private final File outDirectory;
+    @Getter
+    private final File notificationRequestDirectory; //DKC/001
+    private final File notificationRequestHandledDirectory; //DKC/001
     @Getter
     private final File inDirectory;
     private final File successDirectory;
@@ -30,11 +31,12 @@ public class Directory {
     private final String certificatePrefix;
     @Getter
     private final Properties properties;
-    private static final Logger logger = LoggerFactory.getLogger(Directory.class);
 
     public Directory(Properties _properties) {
         baseDirectory = new File(_properties.getProperty("directoryPath"));
         outDirectory = new File(baseDirectory, "out");
+        notificationRequestDirectory = new File(baseDirectory, "notificationRequests"); //DKC/001
+        notificationRequestHandledDirectory = new File(baseDirectory, "notificationRequests/handled"); //DKC/001
         inDirectory = new File(baseDirectory, "in");
         successDirectory = new File(baseDirectory, "success");
         errorDirectory = new File(baseDirectory, "error");
@@ -42,6 +44,8 @@ public class Directory {
 
         if (!baseDirectory.exists()) baseDirectory.mkdirs();
         if (!outDirectory.exists()) outDirectory.mkdir();
+        if (!notificationRequestDirectory.exists()) notificationRequestDirectory.mkdir(); //DKC/001
+        if (!notificationRequestHandledDirectory.exists()) notificationRequestHandledDirectory.mkdir(); //DKC/001
         if (!inDirectory.exists()) inDirectory.mkdir();
         if (!successDirectory.exists()) successDirectory.mkdir();
         if (!errorDirectory.exists()) errorDirectory.mkdir();
@@ -54,9 +58,28 @@ public class Directory {
             FileUtils.copyFileToDirectory(file, successDirectory);
             file.delete();
         } catch (IOException e) {
-            logger.error("Error happened when trying to move file to Success folder. Inner exception: " + e.getMessage());
+            System.out.printf("Error happened when trying to move file to Success folder. Inner exception: " + e.getMessage());
         }
     }
+
+    //DKC/001/START
+    public void moveToHandled(String fileName) {
+        try {
+            File file = new File(fileName);
+            if(file.exists()) {
+                File handledDirectory = new File( file.getParent()+"/handled");
+                if (!handledDirectory.exists()) handledDirectory.mkdirs();
+                System.out.printf("\nmoving filename : " + file.toString() + "\n");
+                System.out.printf("\nmove to : " + handledDirectory.toString() + "\n");
+                FileUtils.copyFileToDirectory(file, handledDirectory);
+                file.delete();
+            }
+        } catch (IOException e) {
+            System.out.printf("Error happened when trying to move file to the handled folder. Inner exception: " + e.getMessage());
+        }
+
+    }
+    //DKC/001/STOP
 
     public void moveToError(File file, String errorMessage) {
         try {
@@ -75,7 +98,7 @@ public class Directory {
 
             file.delete();
         } catch (IOException e) {
-            logger.error("Error happened when trying to move file to Error folder. Inner exception: " + e.getMessage());
+            System.out.printf("Error happened when trying to move file to Error folder. Inner exception: " + e.getMessage());
         }
     }
 
@@ -114,7 +137,7 @@ public class Directory {
             }
             return procedureType;
         } catch (Exception e){
-            logger.error("Directory creation failed with the error: " + e.getMessage());
+            System.out.printf("Directory creation failed with the error: " + e.getMessage());
             return null;
         }
     }
@@ -129,7 +152,7 @@ public class Directory {
             }
             return service;
         } catch (Exception e){
-            logger.error("Directory creation failed with the error: " + e.getMessage());
+            System.out.printf("Directory creation failed with the error: " + e.getMessage());
             return null;
         }
     }
@@ -144,7 +167,7 @@ public class Directory {
             }
             return action;
         } catch (Exception e){
-            logger.error("Directory creation failed with the error: " + e.getMessage());
+            System.out.printf("Directory creation failed with the error: " + e.getMessage());
             return null;
         }
     }
