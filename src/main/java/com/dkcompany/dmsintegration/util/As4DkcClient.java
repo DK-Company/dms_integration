@@ -28,6 +28,7 @@ import java.util.Properties;
 //DKC/002/110724/TOP Added function pushRequest
 //DKC/003/260825/TOP Changed "then"+"now" datetime format because DMS is more picky now
 
+// DKC As4 client med en array af alle de CRV-clients den skal servisere
 @Component
 public class As4DkcClient {
     private final Map<String, As4Client> clients;
@@ -43,10 +44,12 @@ public class As4DkcClient {
         }
     }
 
+    // Tilføjer certifikatet og en client til clients arrayen
     public void addCertificate(Properties properties) {
         this.clients.put(properties.getProperty("certificatePrefix"), createAs4Client(properties));
     }
 
+    // Finder Client til et certifikat prefix
     private As4Client getClientFromCertificatePrefix(String certificatePrefix) {
         As4Client client = this.clients.get(certificatePrefix);
         Objects.requireNonNull(client, "No AS4Client registered with the given certificate.");
@@ -54,6 +57,7 @@ public class As4DkcClient {
         return client;
     }
 
+    // Send en Declaration for en client-prefix
     public As4ClientResponseDto submitDeclaration(
             String filePath,
             ProcedureType procedureType,
@@ -90,12 +94,13 @@ public class As4DkcClient {
     }
 
     //DKC/002/START
+    // Sender en push-request
     public As4ClientResponseDto pushRequest(
             String serviceEndpointTxt,   // ex "DMS.Export"
             String serviceTypeTxt,       // ex "Notification",
             Map<String, String> serviceAttributes, // Attributes to be passed to the service
             String messageId, // MessageId to use
-            Properties properties
+            Properties properties  // Client properties (Hvilket CRV sender)
     ) throws AS4Exception {
         // Get connection-prefix for the current connection
         String certificatePrefix = properties.getProperty("certificatePrefix");
@@ -111,6 +116,7 @@ public class As4DkcClient {
     }
     //DKC/002/STOP
 
+    // Standard push-for-notification request
     public As4ClientResponseDto pushNotificationRequest(
             LocalDateTime then,
             LocalDateTime now,
@@ -119,7 +125,7 @@ public class As4DkcClient {
         String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
-        System.out.println("Sending push-pull request for csv "+properties.getProperty("cvr")); //DKC/001
+        //System.out.println("Sending push-pull request for csv "+properties.getProperty("cvr")); //DKC/001
 
         return client.executePush(
                 "DMS.Export",
@@ -133,12 +139,13 @@ public class As4DkcClient {
         );
     }
 
+    // Henter notifikationer fra de properties der er opsat på properties (as4-klienten for dette CRV nummer)
     public As4ClientResponseDto pullNotifications(Properties properties) {
         As4Client client = getClientFromCertificatePrefix(properties.getProperty("certificatePrefix"));
 
         String notificationQueueURL = properties.getProperty("notificationQueueURL");
 
-        System.out.println("Pull notifications for csv "+properties.getProperty("cvr"));
+        //System.out.println("Pull notifications for csv "+properties.getProperty("cvr"));
         try {
             return client.executePull(notificationQueueURL); //
         } catch (AS4Exception e) {
@@ -146,6 +153,7 @@ public class As4DkcClient {
         }
     }
 
+    // Initier properties til en as4client (pr. CVR nummer)
     private As4Client createAs4Client(Properties properties) {
         var cryptoProperties = new CryptoProperties(
                 properties.getProperty("file"),

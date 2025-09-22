@@ -27,6 +27,7 @@ import java.util.concurrent.CompletableFuture;
 
 //DKC/001/050724/TOP Added notificationRequests
 //DKC/002/260825/TOP Added support for more fields in the notificationRequests
+//DKC/003/020925/TOP Removed som loglines. Added alive ticker.
 
 @Configuration
 @EnableScheduling
@@ -35,6 +36,7 @@ public class FileService {
     private final As4DkcClient as4DkcClient;
     private final NotificationService notificationService;
 
+    // Initier FileService
     public FileService(
             As4DkcClient as4DkcClient,
             @Value("${configPath:null}") String configPath,
@@ -46,20 +48,24 @@ public class FileService {
         addDirectories(configPath);
     }
 
+    // Gennemløber configPath og indlæser alle configfiler (1 fil pr CVR)
     private void addDirectories(String configPath) {
-        List<Path> configFiles = getConfigFiles(configPath);
+        List<Path> configFiles = getConfigFiles(configPath); // Hent alle configfiles til array
+
+        // Loop configfiles og lave en Directory-instance pr. config
         configFiles.forEach(c -> {
             Properties properties = loadProperties(c.toString());
             directories.add(new Directory(properties));
         });
 
-
+        // Loop alle Directory og tilføj til as4DkcClient.clients
         this.directories.forEach(d -> {
-            String certificatePrefix = d.getCertificatePrefix();
-            this.as4DkcClient.addCertificate(d.getProperties());
+            //String certificatePrefix = d.getCertificatePrefix();
+            this.as4DkcClient.addCertificate(d.getProperties()); // Tilføj til As4 clients arrayen på as4clienten
         });
     }
 
+    // Gennemløb mappen og tilføj all configuration-files
     public static List<Path> getConfigFiles(String directoryPath) {
         List<Path> configFiles = new ArrayList<>();
 
@@ -104,10 +110,11 @@ public class FileService {
     //
     @Scheduled(fixedDelay = 10000)
     public void notificationRequests() {
+        System.out.println("Requesting notifications");
         final int[] files = {0};
         // Handle outgoing requests
         directories.forEach(directory -> {
-            System.out.printf("Checking for notificationRequests in %s \n", directory.getNotificationRequestDirectory().getPath());
+            //System.out.println("Checking for notificationRequests in %s \n", directory.getNotificationRequestDirectory().getPath());
 
             // Scan the directory for requests
             List<Path> requestFiles = getFiles(directory.getNotificationRequestDirectory().getPath() ,"request");
@@ -116,10 +123,8 @@ public class FileService {
                 files[0]++;
 
                 Properties requestProperties = loadProperties(requestFile.toString());
-
-                System.out.printf("Handling request id %s from %s \n", requestProperties.getProperty("id"), requestFile.getFileName());
-
-                System.out.printf("Handling request keep %s from %s \n", requestProperties.getProperty("keep"), requestFile.getFileName());
+                //System.out.println("Handling request id %s from %s \n", requestProperties.getProperty("id"), requestFile.getFileName());
+                //System.out.println("Handling request keep %s from %s \n", requestProperties.getProperty("keep"), requestFile.getFileName());
 
                 // Send the notification request to the AS4 gateway
                 // ToDo : Hent og valider opsætning fra config filen og send den til As4 serveren
@@ -190,14 +195,9 @@ public class FileService {
                     }
                 }
 
-                //DKC/002 Show request in colsole for debugging
-                System.out.println("serviceAttributes \n"+serviceAttributes);
-
                 // Send request if input is valid
                 if(serviceType!=null && serviceEndpoint!=null) {
-                    System.out.println("sendRequest \n");
                     As4ClientResponseDto dto = notificationService.sendRequest(serviceEndpoint, serviceType, serviceAttributes, messageId , directory.getProperties());
-                    System.out.println("dto id for sendRequest "+dto.getRefToOriginalID());
                 }
 
                 // Move file to handled
@@ -225,6 +225,7 @@ public class FileService {
     // ------------------------------------------
     @Scheduled(fixedDelay = 60000) // every 1 minutes Pull
     public void pullNotifications() {
+
         // Second step: pull notifications concurrently for each certificate
         var completableFutures = directories.stream()
                 .map(d -> CompletableFuture.supplyAsync(() -> {
@@ -266,10 +267,16 @@ public class FileService {
             String messageId;
             messageId= file.getName()+'_'+UUID.randomUUID();
 
-            ProcedureType procedureType = document.procedureType();
-            DmsService dmsService = document.dmsService();
-            DeclarationAction declarationAction = document.declarationAction();
+            // Get info on handeling from the document filename
+            ProcedureType procedureType = document.procedureType();             // Get ex. "H2"
+            DmsService dmsService = document.dmsService();                      // Get ex. "DMS.IMPORT"
+            DeclarationAction declarationAction = document.declarationAction(); // get ex. "submit"
 
+            //DKC/000
+            // Show in colsole
+            System.out.println("dmsService: " + dmsService);
+
+            // Handle the document
             try {
                 As4ClientResponseDto response = as4DkcClient.submitDeclaration(
                         file.getAbsolutePath(),

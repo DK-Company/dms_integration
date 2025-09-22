@@ -1,5 +1,7 @@
 package com.dkcompany.dmsintegration.as4client;
 
+//DKC/001/220925/TOP  Added comments + logging for debugging
+
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.apache.wss4j.common.util.XMLUtils;
@@ -22,7 +24,7 @@ public class As4ClientInstance implements As4Client {
     private As4DtoCreator as4DtoCreator;
     @Getter
     private As4HttpClient as4HttpClient;
-    private final String defaultMPC = "urn:fdc:dk.skat.mft.DMS/import2/response";
+    private final String defaultMPC = "urn:fdc:dk.skat.mft.DMS/import2/response"; // Bliver ikke brugt da hver CRV har en notifikations-url opsætning
 
     public As4ClientInstance(As4DtoCreator as4DtoCreator, As4HttpClient as4HttpClient) {
         this.as4DtoCreator = as4DtoCreator;
@@ -90,6 +92,18 @@ public class As4ClientInstance implements As4Client {
     }
 
     private As4ClientResponseDto internalPush(String service, String action, String message, String file, Map<String, String> messageProperties, Boolean includeAttachment, String messageId ) throws AS4Exception {
+
+        //DKC/001
+        // Test DMS.Import2
+        //if(service.equals("DMS.Import")){service="DMS.Import2";}
+        // Vis service kald variable til debug
+        System.out.println("internalPush: ");
+        System.out.println("service: " + service);
+        System.out.println("action: " + action);
+        //System.out.println("message: " + message);
+        //System.out.println("file: " + file);
+
+
         As4Message as4Message = new As4Message();
 
         if(includeAttachment)
@@ -107,9 +121,11 @@ public class As4ClientInstance implements As4Client {
         SOAPMessage soapMessage;
         try {
             soapMessage = as4HttpClient.sendRequest(messaging, as4Message);
-            as4ClientResponseDto.setFirstAttachment(tryGetFirstAttachment(soapMessage));
+            as4ClientResponseDto.setFirstAttachment(tryGetFirstAttachment(soapMessage)); // Hent svar string
             return as4ClientResponseDto;
         } catch (Exception e) {
+            //DKC/xxx
+            System.out.println("messagefailed: " + e);
             throw new AS4Exception("Failed to send (or receive) message" , e);
         }
     }
@@ -146,11 +162,15 @@ public class As4ClientInstance implements As4Client {
         return part;
     }
 
-    @Override
+    // Default executePull uden url. Vi bruger ikke denne pull da vi altid har en notification url fra configurationen
+    // men vi skal have definitionen med, da den er en del af "as4Client" klassen.
+    //@Override
     public As4ClientResponseDto executePull() throws AS4Exception {
         return executePull(defaultMPC);
     }
 
+    // executePull til notifications køen (mpc)
+    // Sender Pull-request
     @Override
     public As4ClientResponseDto executePull(String mpc) throws AS4Exception {
         String messageId = UUID.randomUUID().toString();
@@ -158,10 +178,12 @@ public class As4ClientInstance implements As4Client {
         SOAPMessage soapMessage = null;
         As4ClientResponseDto as4ClientResponseDto = new As4ClientResponseDto();
         try {
+            // Send request
             soapMessage = as4HttpClient.sendRequest(messaging, new As4Message());
-            as4ClientResponseDto.setRefToOriginalID(tryGetRefToOriginalID(soapMessage));
-            as4ClientResponseDto.setFirstAttachment(tryGetFirstAttachment(soapMessage));
-            as4ClientResponseDto.setFirstAttachmentBytes(tryGetFirstAttachmentBytes(soapMessage));
+            // Returner data fra svaret på afsendelse af requesten
+            as4ClientResponseDto.setRefToOriginalID(tryGetRefToOriginalID(soapMessage)); // Ev.t Original ID
+            as4ClientResponseDto.setFirstAttachment(tryGetFirstAttachment(soapMessage)); // String attachment
+            as4ClientResponseDto.setFirstAttachmentBytes(tryGetFirstAttachmentBytes(soapMessage)); // Byte attachment
             return as4ClientResponseDto;
         } catch (Exception e) {
             String debugMessage = null;
@@ -176,6 +198,7 @@ public class As4ClientInstance implements As4Client {
         }
     }
 
+    // Hent første attachment som string (xml filer)
     private String tryGetFirstAttachment(SOAPMessage soapMessage) {
         try {
             return new String(soapMessage.getAttachments().next().getDataHandler().getInputStream().readAllBytes());
@@ -185,6 +208,7 @@ public class As4ClientInstance implements As4Client {
         }
     }
 
+    // Hent første attachment som bytes (bl.a. PDF filer)
     private byte[] tryGetFirstAttachmentBytes(SOAPMessage soapMessage) {
         try {
             // Get inputstream from soap message
@@ -215,7 +239,7 @@ public class As4ClientInstance implements As4Client {
         }
     }
 
-
+    // Forsøg at hente det original ID fra soapMessage
     private String tryGetRefToOriginalID(SOAPMessage soapMessage) {
         try {
             SOAPHeader header = soapMessage.getSOAPHeader();

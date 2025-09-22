@@ -1,5 +1,6 @@
 package com.dkcompany.dmsintegration.enums;
 
+// Enums for supported procedure types.
 public enum ProcedureType {
     // This list contains all types present on Told's website.
     A3("A3"), H1("H1"), G4("G4"), CC507C("CC507C"), B1("B1"), B2("B2"),
@@ -15,13 +16,14 @@ public enum ProcedureType {
         this.value = value;
     }
 
+    // Get procedure type even of the Case is wrong
     public static ProcedureType findByValue(String value) {
         for (ProcedureType p : values()) {
             if (p.value.equalsIgnoreCase(value)) {
-                return p;
+                return p; // Return the correct procedure type
             }
         }
-
+        // Return null if the procedure type is not valid
         return null;
     }
 }

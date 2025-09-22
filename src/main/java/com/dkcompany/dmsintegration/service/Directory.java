@@ -69,8 +69,8 @@ public class Directory {
             if(file.exists()) {
                 File handledDirectory = new File( file.getParent()+"/handled");
                 if (!handledDirectory.exists()) handledDirectory.mkdirs();
-                System.out.printf("\nmoving filename : " + file.toString() + "\n");
-                System.out.printf("\nmove to : " + handledDirectory.toString() + "\n");
+                //System.out.printf("\n moving filename : " + file.toString() + "\n");
+                //System.out.printf("\n move to : " + handledDirectory.toString() + "\n");
                 FileUtils.copyFileToDirectory(file, handledDirectory);
                 file.delete();
             }
@@ -127,6 +127,7 @@ public class Directory {
                 .toList();
     }
 
+    // Get the procedure-type from the filename (First part of the filename ex. DMS.Import)
     private static ProcedureType getProcedureTypeFromFile(File file) {
         String fileName = file.getName();
         String prefix = fileName.split("_")[0];

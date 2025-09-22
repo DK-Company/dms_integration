@@ -21,6 +21,7 @@ import java.util.*;
 
 
 @Component
+// Handles request-for and return of notifications
 public class NotificationService {
     private final As4DkcClient as4DkcClient;
     private final NotificationRepository notificationRepository;
@@ -33,6 +34,7 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
+    // Send request to the AS4 gateway
     public As4ClientResponseDto sendRequest(
             String serviceEndpointTxt,   // ex "DMS.Export"
             String serviceTypeTxt,       // ex "Notification",
@@ -40,7 +42,7 @@ public class NotificationService {
             String messageId,           // Id for the message
             Properties properties){
         try {
-
+            // Push the request to the AS4 gateway
             return as4DkcClient.pushRequest(serviceEndpointTxt,serviceTypeTxt,serviceAttributes,messageId,properties);
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
@@ -58,14 +60,13 @@ public class NotificationService {
     public List<As4ClientResponseDto> pullNotifications(Properties properties) {
         List<As4ClientResponseDto> dtos = new ArrayList<>();
 
+        // Pull notifications until the queue is empty
         while (true) {
             As4ClientResponseDto dto = as4DkcClient.pullNotifications(properties);
             dtos.add(dto);
-
-            if (dto.getRefToOriginalID() == null) {
-                break;
-            }
+            if (dto.getRefToOriginalID() == null) break;
         }
+        // Return the notifications we got
         return dtos;
     }
 
@@ -76,7 +77,7 @@ public class NotificationService {
         // Extract notification
         StringBuilder notifications = getStringBuilder(tuple);
 
-        System.out.println(notifications);
+        //System.out.println(notifications);
 
         Path fileLocationPath = Paths.get(directory.getInDirectory().getAbsolutePath(), "notifications.txt");
         String fileLocation = fileLocationPath.toString();
@@ -88,18 +89,15 @@ public class NotificationService {
     }
 
     public Void pushNotificationRequests(Directory directory) {
-        String nowFormatted = LocalDateTime.now().plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        System.out.printf("Pushing notification request for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
-
+        //String nowFormatted = LocalDateTime.now().plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        //System.out.printf("Pushing notification request for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
         requestNotifications(directory.getProperties());
-
         return null;
     }
 
     public Pair<Directory, List<As4ClientResponseDto>> pullNotifications(Directory directory) {
-        String nowFormatted = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-        System.out.printf("Pulling notifications for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
+        //String nowFormatted = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        //System.out.printf("Pulling notifications for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
 
         List<As4ClientResponseDto> dtos = pullNotifications(directory.getProperties());
         return new Pair<Directory, List<As4ClientResponseDto>>(
@@ -111,9 +109,9 @@ public class NotificationService {
     // Extract the notification from the CTO message
     private static StringBuilder getStringBuilder(Pair<Directory, List<As4ClientResponseDto>> tuple) {
         List<As4ClientResponseDto> dtoList = tuple.getValue1();
-
         StringBuilder notifications = new StringBuilder();
 
+        // Loop dtoList-notifications, extract notofication-files and build notifications-text
         dtoList.forEach(dto -> {
             String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             String firstAttachment = dto.getFirstAttachment();
@@ -125,12 +123,14 @@ public class NotificationService {
                     // Write attachment to notification-file
                     Directory directory = tuple.getValue0();
                     String filename = dto.getRefToOriginalID() ;
+                    // Find the notification type (PDF, Xml or text)
                     if (firstAttachment.startsWith("%PDF-")) filename += ".pdf";
                     else if (firstAttachment.startsWith("<?xml version=")) filename += ".xml";
                         else filename += ".notification";
 
                     // Check if the filename is free
                     File file = new File(filename);
+                    // Add UUID if the filename is already used
                     if(file.exists()) filename+=UUID.randomUUID().toString();
 
                     Path fileLocationPath = Paths.get(directory.getInDirectory().getAbsolutePath(), filename);
@@ -149,6 +149,7 @@ public class NotificationService {
                 }
             }
             //DKC/002/STOP
+            // Append to the notifications-text
             notifications.append("[NOTIFICATION ");
             notifications.append(time);
             notifications.append(']');
@@ -159,6 +160,7 @@ public class NotificationService {
         return notifications;
     }
 
+    // Request "new" notifications from the last 7 minutes.
     private void requestRecentNotifications(LocalDateTime now, Properties properties) {
         LocalDateTime then = now.minusMinutes(7);
         String certificatePrefix = properties.getProperty("certificatePrefix");
@@ -193,6 +195,7 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
+    /* the function is never used
     private LocalDateTime getLatestNotificationTimestamp(String certificatePrefix) {
         Notification latestNotification = notificationRepository
                 .findFirstByCertificatePrefixOrderByTimestampDesc(certificatePrefix);
@@ -202,4 +205,6 @@ public class NotificationService {
 
         return latestNotification.getTimestamp();
     }
+    */
+
 }
