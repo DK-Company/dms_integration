@@ -1,12 +1,12 @@
 package com.dkcompany.dmsintegration.as4client;
 
+import lombok.Setter;
 import org.apache.wss4j.common.WSEncryptionPart;
 import org.apache.wss4j.common.WSS4JConstants;
 import org.apache.wss4j.common.crypto.Crypto;
 import org.apache.wss4j.common.crypto.SantuarioUtil;
 import org.apache.wss4j.common.ext.Attachment;
 import org.apache.wss4j.dom.WSConstants;
-import org.apache.wss4j.dom.message.WSSecEncrypt;
 import org.apache.wss4j.dom.message.WSSecHeader;
 import org.apache.wss4j.dom.message.WSSecSignature;
 import org.apache.wss4j.dom.message.WSSecUsernameToken;
@@ -21,25 +21,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import static org.apache.wss4j.common.WSS4JConstants.ELEM_BODY;
-import static org.apache.wss4j.common.WSS4JConstants.URI_SOAP12_ENV;
 import static org.apache.wss4j.common.crypto.WSProviderConfig.addJceProvider;
 
 public class SecurityService {
 
+    @Setter
     private String username;
-    private String password;
-    private Crypto crypto;
-    private Properties properties;
+    private final String password;
+    private final Crypto crypto;
+    private final Properties properties;
 
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public void setActor(String actor) {
-        this.actor = actor;
-    }
-
+    @Setter
     private String actor = "ebms";
 
     public SecurityService(String username, String password, Crypto crypto, Properties properties) {
@@ -105,7 +98,7 @@ public class SecurityService {
         while (attachmentParts.hasNext()) {
             AttachmentPart part = attachmentParts.next();
             Attachment attachment = new Attachment();
-            attachment.setId(part.getContentId().replaceAll("<|>", ""));
+            attachment.setId(part.getContentId().replaceAll("[<>]", ""));
             try {
                 attachment.setSourceStream(part.getRawContent());
             } catch (Exception e) {
@@ -115,14 +108,6 @@ public class SecurityService {
         }
 
         return new AttachmentCallbackHandler(attachments);
-    }
-
-    private void setupEncryption(WSSecEncrypt wsSecEncrypt, Properties cryptoProperties) {
-        wsSecEncrypt.setUserInfo(
-                cryptoProperties.getProperty("org.apache.wss4j.crypto.merlin.truststore.alias"));
-        wsSecEncrypt.setDigestAlgorithm(WSS4JConstants.SHA256);
-        wsSecEncrypt.setMGFAlgorithm(WSS4JConstants.MGF_SHA256);
-        wsSecEncrypt.setKeyEncAlgo(WSS4JConstants.KEYTRANSPORT_RSAOAEP_XENC11);
     }
 
     private void setupSignature(WSSecSignature wsSecSignature, Properties cryptoProperties) {
@@ -146,29 +131,5 @@ public class SecurityService {
         wsEncryptionParts.add(usernameToken);
         wsEncryptionParts.add(new WSEncryptionPart("cid:Attachments", "Content"));
         return wsEncryptionParts;
-    }
-
-    private List<WSEncryptionPart> getPartsToEncrypt(SOAPMessage soapMessage) throws SOAPException {
-        List<WSEncryptionPart> wsEncryptionParts = new ArrayList<>();
-        if (hasBody(soapMessage)) {
-            WSEncryptionPart body = new WSEncryptionPart(ELEM_BODY, URI_SOAP12_ENV, "Content");
-            wsEncryptionParts.add(body);
-        }
-        if (hasAttachments(soapMessage)) {
-            wsEncryptionParts.add(new WSEncryptionPart("cid:Attachments", "Content"));
-        }
-        return wsEncryptionParts;
-    }
-
-    public void decryptAndValidateAs4(SOAPMessage response) {
-
-    }
-
-    private boolean hasBody(SOAPMessage soapMessage) throws SOAPException {
-        return soapMessage.getSOAPBody().getFirstChild() != null;
-    }
-
-    private boolean hasAttachments(SOAPMessage soapMessage) {
-        return soapMessage.getAttachments().hasNext();
     }
 }

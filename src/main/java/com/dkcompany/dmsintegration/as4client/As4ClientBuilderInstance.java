@@ -29,7 +29,6 @@ public class As4ClientBuilderInstance implements As4ClientBuilder {
     /**
      * Builds the client with the set parameters.
      * @return the client
-     * @throws AS4Exception
      */
     public As4Client build() throws AS4Exception {
 
@@ -69,10 +68,10 @@ public class As4ClientBuilderInstance implements As4ClientBuilder {
     }
 
 
-    @Override
-    public As4Optionals optionals() {
-        return new As4OptionalsBuilder(this);
-    }
+    //@Override
+    //public As4Optionals optionals() {
+    //    return new As4OptionalsBuilder(this);
+   // }
 
     //Builder -> Endpoint
 
@@ -125,19 +124,6 @@ public class As4ClientBuilderInstance implements As4ClientBuilder {
             as4SetUsernameTokenDetailsInstance = new As4ClientBuilderInstance.As4SetPasswordTokenDetailsInstance();
             return as4SetUsernameTokenDetailsInstance;
         }
-
-        /**
-         * Use this to set the crypto, if your project has the ability to load resources.
-         * @param cryptoProps
-         * @return
-         */
-
-        public As4SetPasswordTokenDetails setCrypto(Crypto cryptoProps) {
-            crypto = cryptoProps;
-
-            as4SetUsernameTokenDetailsInstance = new As4ClientBuilderInstance.As4SetPasswordTokenDetailsInstance();
-            return as4SetUsernameTokenDetailsInstance;
-        }
     }
 
     //Endpoint -> Crypto
@@ -166,18 +152,16 @@ public class As4ClientBuilderInstance implements As4ClientBuilder {
 
     public static String mapUserInformationToUsernameString(As4UserInformation information)
     {
-        StringBuilder res = new StringBuilder();
-        res.append("CVR_");
-        res.append(information.getCvr());
-        res.append("_");
-        res.append(information.getType().name());
-        res.append("_");
-        res.append(information.getId());
-        return res.toString();
+        return "CVR_" +
+                information.getCvr() +
+                "_" +
+                information.getType().name() +
+                "_" +
+                information.getId();
     }
 
 
-    public static As4UserInformation mapCertificateToUserInformation(final X509Certificate[] certificates) throws AS4Exception, AS4Exception {
+    public static As4UserInformation mapCertificateToUserInformation(final X509Certificate[] certificates) throws AS4Exception {
         if (certificates == null || certificates.length < 1 || certificates[0] == null) {
             throw new AS4Exception("The certificate array does not have any certificates");
         }
@@ -234,7 +218,6 @@ public class As4ClientBuilderInstance implements As4ClientBuilder {
                                 final String uuid = matcherSN.group(1);
                                 matcherSN = Pattern.compile("NTRDK-([A-Za-z0-9]+)").matcher(serialNumber);
                                 matcherSN.find();
-                                int i = 0;
                                 final String cvr = matcherSN.group(1);
                                 userInformation = new As4UserInformation(As4UserInformationType.UI, uuid, cvr );
                             }

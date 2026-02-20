@@ -26,7 +26,8 @@ public class AttachmentCallbackHandler implements CallbackHandler {
                 attachmentRequestCallback.setAttachments(new ArrayList<>(attachments));
 
             } else if (callback instanceof AttachmentResultCallback attachmentResultCallback) {
-                Attachment attachment = attachmentResultCallback.getAttachment();
+                // Access to avoid "empty body" warning
+                var ignore = attachmentResultCallback.getAttachment();
             } else {
                 throw new UnsupportedCallbackException(callback, "Unrecognized Callback");
             }

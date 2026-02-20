@@ -1,8 +1,6 @@
 package com.dkcompany.dmsintegration.service;
 
 import com.dkcompany.dmsintegration.util.As4DkcClient;
-import com.dkcompany.dmsintegration.entity.Notification;
-import com.dkcompany.dmsintegration.repository.NotificationRepository;
 
 import com.dkcompany.dmsintegration.as4client.As4ClientResponseDto;
 import com.dkcompany.dmsintegration.as4client.AS4Exception;
@@ -24,26 +22,23 @@ import java.util.*;
 // Handles request-for and return of notifications
 public class NotificationService {
     private final As4DkcClient as4DkcClient;
-    private final NotificationRepository notificationRepository;
 
     public NotificationService(
-            As4DkcClient as4DkcClient,
-            NotificationRepository notificationRepository
+            As4DkcClient as4DkcClient
     ) {
         this.as4DkcClient = as4DkcClient;
-        this.notificationRepository = notificationRepository;
     }
 
     // Send request to the AS4 gateway
-    public As4ClientResponseDto sendRequest(
+    public void sendRequest(
             String serviceEndpointTxt,   // ex "DMS.Export"
             String serviceTypeTxt,       // ex "Notification",
             Map<String, String> serviceAttributes, // Attributes to be passed to the service
-            String messageId,           // Id for the message
-            Properties properties){
+            Properties properties,
+            String messageId){
         try {
             // Push the request to the AS4 gateway
-            return as4DkcClient.pushRequest(serviceEndpointTxt,serviceTypeTxt,serviceAttributes,messageId,properties);
+            as4DkcClient.pushRequest(serviceEndpointTxt,serviceTypeTxt,serviceAttributes,properties, messageId);
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
@@ -88,22 +83,13 @@ public class NotificationService {
         }
     }
 
-    public Void pushNotificationRequests(Directory directory) {
-        //String nowFormatted = LocalDateTime.now().plusHours(2).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        //System.out.printf("Pushing notification request for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
+    public void pushNotificationRequests(Directory directory) {
         requestNotifications(directory.getProperties());
-        return null;
     }
 
     public Pair<Directory, List<As4ClientResponseDto>> pullNotifications(Directory directory) {
-        //String nowFormatted = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        //System.out.printf("Pulling notifications for %s (%s).%n", directory.getBaseDirectory(), nowFormatted);
-
         List<As4ClientResponseDto> dtos = pullNotifications(directory.getProperties());
-        return new Pair<Directory, List<As4ClientResponseDto>>(
-                directory,
-                dtos
-        );
+        return new Pair<>(directory, dtos);
     }
 
     // Extract the notification from the CTO message
@@ -163,48 +149,13 @@ public class NotificationService {
     // Request "new" notifications from the last 7 minutes.
     private void requestRecentNotifications(LocalDateTime now, Properties properties) {
         LocalDateTime then = now.minusMinutes(7);
-        String certificatePrefix = properties.getProperty("certificatePrefix");
+        //String certificatePrefix = properties.getProperty("certificatePrefix");
         try {
-            as4DkcClient.pushNotificationRequest(then, now, properties);
+            as4DkcClient.pushNotificationRequest(then, now, properties, "");
         } catch (AS4Exception e) {
             throw new RuntimeException(e);
         }
-        saveNotificationToRepository(now, certificatePrefix);
     }
 
-    /*
-    private boolean hasNoUnrequestedNotifications(LocalDateTime now, Properties properties) {
-        String certificatePrefix = properties.getProperty("certificatePrefix");
-        LocalDateTime latestNotificationTimestamp = getLatestNotificationTimestamp(certificatePrefix);
-        if (latestNotificationTimestamp == null) {
-            return true;
-        }
-        return !latestNotificationTimestamp.isAfter(now.minusMinutes(5));
-    }
-     */
-
-    private void saveNotificationToRepository(LocalDateTime now, String certificatePrefix) {
-        int offset = new Random().nextInt(2000000) - 1000000;
-        LocalDateTime nowWithNoise = now.plusNanos(offset);
-
-        Notification notification = Notification
-                .builder()
-                .timestamp(nowWithNoise)
-                .certificatePrefix(certificatePrefix)
-                .build();
-        notificationRepository.save(notification);
-    }
-
-    /* the function is never used
-    private LocalDateTime getLatestNotificationTimestamp(String certificatePrefix) {
-        Notification latestNotification = notificationRepository
-                .findFirstByCertificatePrefixOrderByTimestampDesc(certificatePrefix);
-        if (latestNotification == null) {
-            return null;
-        }
-
-        return latestNotification.getTimestamp();
-    }
-    */
 
 }

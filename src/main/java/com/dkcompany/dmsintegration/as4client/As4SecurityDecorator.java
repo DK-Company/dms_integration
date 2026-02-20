@@ -18,9 +18,7 @@ public class As4SecurityDecorator extends SOAPConnection {
     public SOAPMessage call(SOAPMessage soapMessage, Object o) throws SOAPException {
         String userTokenId = securityService.usernameToken(soapMessage);
         securityService.signAndEncryptAs4(soapMessage, userTokenId);
-        SOAPMessage response = soapConnection.call(soapMessage, o);
-        securityService.decryptAndValidateAs4(response);
-        return response;
+        return soapConnection.call(soapMessage, o);
     }
 
     @Override

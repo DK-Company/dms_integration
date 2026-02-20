@@ -14,19 +14,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 
 //DKC/001/010101/TOP Added properties to function calls to support different CVR numbers
 //DKC/002/110724/TOP Added function pushRequest
 //DKC/003/260825/TOP Changed "then"+"now" datetime format because DMS is more picky now
+//DKC/004/100226/TOP Added function submitBatch
+//                   Clde cleanup
 
 // DKC As4 client med en array af alle de CRV-clients den skal servisere
 @Component
@@ -63,9 +63,12 @@ public class As4DkcClient {
             ProcedureType procedureType,
             DmsService dmsService,
             DeclarationAction declarationAction,
-            String certificatePrefix,
-            String messageId // MessageId to use
+            String certificatePrefix
     ) throws AS4Exception {
+
+        System.out.println("submitDeclaration "+filePath);
+
+        // Load the data from the declaration file
         Path path = Paths.get(filePath);
         byte[] declarationBytes;
         try {
@@ -75,32 +78,45 @@ public class As4DkcClient {
         }
 
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
-
-        /*
         return client.executePush(
-                dmsService.value,
-                "Declaration." + declarationAction.value,
-                declarationBytes,
-                Map.of("procedureType", procedureType.value)
-        */
-        return client.executePush(
-
                 dmsService.value,
                 "Declaration." + declarationAction.value,
                 declarationBytes,
                 Map.of("procedureType", procedureType.value),
-                messageId // MessageId to use
+                ""
         );
     }
 
+    //DKC/004/START
+    public As4ClientResponseDto submitBatch(
+            List<File> files,
+            ProcedureType procedureType,
+            DmsService dmsService,
+            DeclarationAction declarationAction,
+            String certificatePrefix
+    ) throws AS4Exception {
+
+        System.out.println("submitBatch "+files.get(0).getPath());
+
+        As4Client client = getClientFromCertificatePrefix(certificatePrefix);
+        return client.executePush(
+                dmsService.value,
+                "Declaration." + declarationAction.value,
+                files,
+                Map.of("procedureType", procedureType.value),
+                ""
+        );
+    }
+    //DKC/004/STOP
+
     //DKC/002/START
     // Sender en push-request
-    public As4ClientResponseDto pushRequest(
+    public void pushRequest(
             String serviceEndpointTxt,   // ex "DMS.Export"
             String serviceTypeTxt,       // ex "Notification",
             Map<String, String> serviceAttributes, // Attributes to be passed to the service
-            String messageId, // MessageId to use
-            Properties properties  // Client properties (Hvilket CRV sender)
+            Properties properties,  // Client properties (Hvilket CRV sender)
+            String messageId
     ) throws AS4Exception {
         // Get connection-prefix for the current connection
         String certificatePrefix = properties.getProperty("certificatePrefix");
@@ -110,24 +126,23 @@ public class As4DkcClient {
         serviceAttributes.put("lang", "EN");
         serviceAttributes.put("submitterId", properties.getProperty("cvr"));
 
-        System.out.println("Sending pushRequest for csv "+properties.getProperty("cvr")+" with messageId "+messageId);
+        System.out.println("Sending pushRequest for csv "+properties.getProperty("cvr"));
 
-        return client.executePush(serviceEndpointTxt,serviceTypeTxt,serviceAttributes,messageId);
+        var ignore = client.executePush(serviceEndpointTxt,serviceTypeTxt,serviceAttributes, messageId);
     }
     //DKC/002/STOP
 
     // Standard push-for-notification request
-    public As4ClientResponseDto pushNotificationRequest(
+    public void pushNotificationRequest(
             LocalDateTime then,
             LocalDateTime now,
-            Properties properties //DKC/001 String certificatePrefix
+            Properties properties, //DKC/001 String certificatePrefix
+            String messageId
     ) throws AS4Exception {
         String certificatePrefix = properties.getProperty("certificatePrefix"); //DKC/001
         As4Client client = getClientFromCertificatePrefix(certificatePrefix);
 
-        //System.out.println("Sending push-pull request for csv "+properties.getProperty("cvr")); //DKC/001
-
-        return client.executePush(
+        var ignore = client.executePush(
                 "DMS.Export",
                 "Notification",
                 Map.of(
@@ -135,7 +150,7 @@ public class As4DkcClient {
                         "submitterId", properties.getProperty("cvr"), //DKC/001 get cvr from properties "24431118",
                         "dateFrom", then.toString().substring(0,19),      //DKC/003 cut length to new format
                         "dateTo", now.toString().substring(0,19)          //DKC/003 cut length to new format
-                )
+                ), messageId
         );
     }
 
@@ -145,7 +160,6 @@ public class As4DkcClient {
 
         String notificationQueueURL = properties.getProperty("notificationQueueURL");
 
-        //System.out.println("Pull notifications for csv "+properties.getProperty("cvr"));
         try {
             return client.executePull(notificationQueueURL); //
         } catch (AS4Exception e) {
@@ -214,10 +228,21 @@ public class As4DkcClient {
                     .setPassword(gatewayPassword)
                     .build();
         } catch (AS4Exception e) {
-            logger.error("Error happened when trying to create As4ClientBuilderInstance. inner exception: " + e.getMessage());
+            System.out.printf("Error happened when trying to create As4ClientBuilderInstance. inner exception: " + e.getMessage());
             throw new RuntimeException(e);
         } finally {
-            cryptoPropertiesFile.delete();
+
+            try {
+                Files.deleteIfExists(cryptoPropertiesFile.toPath());
+            } catch (IOException e) {
+                System.out.printf("Failed to delete file: " + cryptoPropertiesFile.getAbsolutePath(), e);
+            }
+
+            try {
+                Files.deleteIfExists(cryptoPropertiesFile.toPath());
+            } catch (IOException e) {
+                System.out.printf("Failed to delete file: " + cryptoPropertiesFile.getAbsolutePath(), e);
+            }
         }
     }
 }

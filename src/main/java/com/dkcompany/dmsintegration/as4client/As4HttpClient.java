@@ -1,5 +1,7 @@
 package com.dkcompany.dmsintegration.as4client;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.Messaging;
 
 import org.w3c.dom.Node;
@@ -28,31 +30,16 @@ public class As4HttpClient {
 
     private final JaxbThreadSafe marshaller;
 
+    @Getter
     private final SecurityService securityService;
 
-    public SecurityService getSecurityService() {
-        return securityService;
-    }
-
+    @Getter
+    @Setter
     private URI endpointURI;
 
+    @Setter
+    @Getter
     private Boolean disableSSL = false;
-
-    public Boolean getDisableSSL() {
-        return disableSSL;
-    }
-
-    public void setDisableSSL(Boolean disableSSL) {
-        this.disableSSL = disableSSL;
-    }
-
-    public URI getEndpointURI() {
-        return endpointURI;
-    }
-
-    public void setEndpointURI(URI endpointURI) {
-        this.endpointURI = endpointURI;
-    }
 
     public As4HttpClient(JaxbThreadSafe marshaller, SecurityService securityService, URI endpointURI) {
         this.marshaller = marshaller;
@@ -67,6 +54,7 @@ public class As4HttpClient {
     }
 
     public SOAPMessage sendRequest(Messaging messaging, As4Message as4Message) throws Exception {
+
         // The code below is to avoid the certificate check on SIT01
         if(!disableSSL) {
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -97,6 +85,7 @@ public class As4HttpClient {
                 soapConnectionFactory.createConnection(), securityService);
 
         SOAPMessage soapMessage = createSOAPMessage(messaging, as4Message);
+
         return soapConnection.call(soapMessage, endpointURI.toURL());
     }
 
@@ -121,7 +110,6 @@ public class As4HttpClient {
 
         return soapMessage;
     }
-
 
     private void insertAttachments(SOAPMessage soapMessage, List<As4Message.As4Part> attachments) throws SOAPException {
         for (As4Message.As4Part attachment : attachments) {
